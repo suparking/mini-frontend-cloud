@@ -1,5 +1,5 @@
 <view class="page">
-    <view class="swiper-container">
+    <view wx:if="{{ swiperList.length }}" class="swiper-container">
         <swiper bindchange="onSwiperChange">
             <swiper-item wx:for="{{ swiperList }}" wx:key="index">
                 <image mode="aspectFill" src="{{ item.imageUrl }}"></image>
