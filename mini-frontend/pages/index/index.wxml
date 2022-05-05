@@ -1,0 +1,12 @@
+<view class="page">
+    <view class="swiper-container">
+        <swiper bindchange="onSwiperChange">
+            <swiper-item wx:for="{{ swiperList }}" wx:key="index">
+                <image mode="aspectFill" src="{{ item.imageUrl }}"></image>
+            </swiper-item>
+        </swiper>
+        <view class="dots">
+            <view class="dot {{ current !== index || 'active'}}" wx:for="{{ swiperList }}" wx:key="index"></view>
+        </view>
+    </view>
+</view>

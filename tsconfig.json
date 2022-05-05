@@ -23,7 +23,7 @@
   },
   "include": [
     "./**/*.ts"
-  ],
+, "mini-frontend/pages/me/index.js", "mini-frontend/pages/order/index.js", "mini-frontend/pages/park/index.js", "mini-frontend/app.js", "mini-frontend/pages/index/index.js"  ],
   "exclude": [
     "node_modules"
   ]
