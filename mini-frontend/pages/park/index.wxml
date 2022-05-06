@@ -1,2 +1,14 @@
 <!--pages/park/index.wxml-->
-<text>pages/park/index.wxml</text>
+<view class="page">
+    <view class="header">
+        <tabs tabs="{{ [{ value: 'nearby', label: '附近场库' },{ value: 'recent', label: '常去场库' }] }}"></tabs>
+        <input class="search" placeholder="搜索场库" type="text" />
+    </view>
+    <view class="map">
+    </view>
+    <view class="collapse-area">
+    </view>
+
+    <scroll-view class="scroll-list">
+    </scroll-view>
+</view>

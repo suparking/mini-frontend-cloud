@@ -30,15 +30,15 @@
         <!-- 我的车牌 -->
         <view class="item me-car">
             <view class="content">
-                <image class="icon" src="../../assets/images/order.png"></image>
-                <view class="label">我的车牌</view>
+                <image class="icon" src="../../assets/images/me-car.png"></image>
+                <view class="label">我的车辆</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>
         <!-- 电子发票 -->
         <view class="item">
             <view class="content">
-                <image class="icon" src="../../assets/images/order.png"></image>
+                <image class="icon" src="../../assets/images/me-invoice.png"></image>
                 <view class="label">电子发票</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
@@ -46,15 +46,15 @@
         <!-- 我的钱包 -->
         <view class="item">
             <view class="content">
-                <image class="icon" src="../../assets/images/order.png"></image>
-                <view class="label">我的钱包</view>
+                <image class="icon" src="../../assets/images/me-package.png"></image>
+                <view class="label">我的零钱</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>
         <!-- 我的车位 -->
         <view class="item me-park">
             <view class="content">
-                <image class="icon" src="../../assets/images/order.png"></image>
+                <image class="icon" src="../../assets/images/me-park.png"></image>
                 <view class="label">我的车位</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
@@ -65,7 +65,7 @@
         <!-- 隐私协议 -->
         <view class="item me-person">
             <view class="content">
-                <image class="icon" src="../../assets/images/order.png"></image>
+                <image class="icon" src="../../assets/images/me-ic.png"></image>
                 <view class="label">隐私政策</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
@@ -73,7 +73,7 @@
         <!-- 用户协议 -->
         <view class="item me-user">
             <view class="content">
-                <image class="icon" src="../../assets/images/order.png"></image>
+                <image class="icon" src="../../assets/images/me-protocol.png"></image>
                 <view class="label">用户协议</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
