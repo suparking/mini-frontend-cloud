@@ -22,9 +22,18 @@ Page({
                 target: 'http://baidu.com'
             }
         ],
-        current: 0
+        current: 0,
+        isLogin: false
     },
 
+    /**
+     * 点击更换车牌.
+     */
+    onChangeLicense() {
+        wx.navigateTo({
+          url: '/pages/login/index',
+        })
+    },
     /** 
      * swiper change event.
      * @param e 

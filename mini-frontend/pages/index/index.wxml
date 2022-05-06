@@ -1,4 +1,5 @@
 <view class="page">
+<!-- 轮播图区域 -->
     <view wx:if="{{ swiperList.length }}" class="swiper-container">
         <swiper bindchange="onSwiperChange">
             <swiper-item wx:for="{{ swiperList }}" wx:key="index">
@@ -7,6 +8,51 @@
         </swiper>
         <view class="dots">
             <view class="dot {{ current !== index || 'active'}}" wx:for="{{ swiperList }}" wx:key="index"></view>
+        </view>
+    </view>
+    <!-- 五大菜单 -->
+    <view class="banner-list">
+        <view class="banner-area">
+            <image class="banner" src="../../assets/images/park-pay.png"></image>
+            <view class="name">停车缴费</view>
+        </view>
+        <view class="banner-area">
+            <image class="banner" src="../../assets/images/park-vip.png"></image>
+            <view class="name">月卡办理</view>
+        </view>
+        <view class="banner-area">
+            <image class="banner" src="../../assets/images/park-discount.png"></image>
+            <view class="name">优惠卡包</view>
+        </view>
+        <view class="banner-area">
+            <image class="banner" src="../../assets/images/park-arrears.png"></image>
+            <view class="name">欠费补缴</view>
+        </view>
+        <view class="banner-area">
+            <image class="banner" src="../../assets/images/park-reverse.png"></image>
+            <view class="name">预约停车</view>
+        </view>
+    </view>
+<!-- 立即停车 -->
+    <view class="menu-banner">
+        <view class="location">
+            <image src="../../assets/images/location.png"></image>
+            <view class="name">城发天地</view>
+        </view>
+        <image class="menu-card" src="../../assets/images/swiper.png"></image>
+    </view>
+
+    <!-- 最近停车信息 -->
+    <view class="park-area">
+        <view class="name">停车信息</view>
+        <view class="park-card">
+            <view class="title-area">
+                <view class="license">浙A6P35C</view> 
+            </view>
+            <view class="content-area">
+                <view class="content">该车辆暂无缴费信息</view>
+                <button class="change-license" bindtap="onChangeLicense">更换车牌</button>
+            </view> 
         </view>
     </view>
 </view>

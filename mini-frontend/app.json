@@ -3,12 +3,13 @@
         "pages/index/index",
         "pages/me/index",
         "pages/order/index",
-        "pages/park/index"
+        "pages/park/index",
+        "pages/login/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "Weixin",
+        "navigationBarTitleText": "数停车",
         "navigationBarTextStyle": "black"
     },
     "tabBar": {

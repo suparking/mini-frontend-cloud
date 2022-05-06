@@ -1,2 +1,85 @@
 <!--pages/me/index.wxml-->
-<text>pages/me/index.wxml</text>
+<view class="page">
+<!-- 用户信息 -->
+    <view class="user-area">
+        <view class="user-box">
+            <image class="avatar" src="../../assets/images/suparking.png"></image>
+            <view class="name">{{ desensitiveMobile.length > 0 ? desensitiveMobile : '登录获得更多权益' }}</view>
+        </view>
+        <view wx:if="{{ mobile.length === 0 }}" class="login-btn" bindtap="login">授权登录</view>
+    </view>
+    <!-- 押金,优惠券 -->
+    <view class="card-container">
+        <view class="card">
+            <view class="meta">
+                <view class="count">54</view>
+                <view class="name">押金</view>
+            </view>
+            <image class="icon" src="../../assets/images/me-deposit.png"></image>
+        </view>
+        <view class="card">
+            <view class="meta">
+                <view class="count">54</view>
+                <view class="name">优惠券</view>
+            </view>
+            <image class="icon" src="../../assets/images/me-discount.png"></image>
+        </view>
+    </view>
+
+    <view class="list-items">
+        <!-- 我的车牌 -->
+        <view class="item me-car">
+            <view class="content">
+                <image class="icon" src="../../assets/images/order.png"></image>
+                <view class="label">我的车牌</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+        <!-- 电子发票 -->
+        <view class="item">
+            <view class="content">
+                <image class="icon" src="../../assets/images/order.png"></image>
+                <view class="label">电子发票</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+        <!-- 我的钱包 -->
+        <view class="item">
+            <view class="content">
+                <image class="icon" src="../../assets/images/order.png"></image>
+                <view class="label">我的钱包</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+        <!-- 我的车位 -->
+        <view class="item me-park">
+            <view class="content">
+                <image class="icon" src="../../assets/images/order.png"></image>
+                <view class="label">我的车位</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+        
+    </view>
+    <view class="list-items">
+        <!-- 隐私协议 -->
+        <view class="item me-person">
+            <view class="content">
+                <image class="icon" src="../../assets/images/order.png"></image>
+                <view class="label">隐私政策</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+        <!-- 用户协议 -->
+        <view class="item me-user">
+            <view class="content">
+                <image class="icon" src="../../assets/images/order.png"></image>
+                <view class="label">用户协议</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+    </view>
+    <view class="version">
+        <view class="value">版本号: 1.0.0 Build 2022-05-06</view>
+    </view>
+</view>
