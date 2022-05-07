@@ -44,7 +44,6 @@ Component({
                 const currentCenterX = rect.left + rect.width / 2;
                 const linePositionWidth = rect.width * 0.8;
                 const linePositionX = (currentCenterX - linePositionWidth / 2) - results[0].left;
-                console.log(linePositionX)
                 this.setData({
                     linePositionWidth,
                     linePositionX

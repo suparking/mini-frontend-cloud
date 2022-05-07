@@ -2,13 +2,65 @@
 <view class="page">
     <view class="header">
         <tabs tabs="{{ [{ value: 'nearby', label: '附近场库' },{ value: 'recent', label: '常去场库' }] }}"></tabs>
-        <input class="search" placeholder="搜索场库" type="text" />
+        <view class="search" bindtap="onSearch">
+            <image class="icon" src="../../assets/images/park-search.png"></image>
+            <view class="name">搜索场库</view>
+        </view>
     </view>
-    <view class="map">
-    </view>
-    <view class="collapse-area">
+    <map id="park-map" class="park-map" style="height: {{ isExpand ? '520rpx' : 0}};" latitude="{{ latitude }}" longitude="{{ longitude }}" show-location enable-3D show-scale markers="{{ markers }}" bindmarkertap="onMarkerTab">
+        <image class="current-icon" src="../../assets/images/current-location.png" bindtap="goToCurrentLocation"></image>
+    </map>
+    <view class="collapse-area" bindtap="onExpandMap">
+        <view class="name">{{isExpand ? '收起地图' : '展开地图'}}</view>
+        <image wx:if="{{ isExpand }}" class="icon" src="../../assets/images/up.png"></image>
+        <image wx:else class="icon" src="../../assets/images/down.png"></image>
     </view>
 
-    <scroll-view class="scroll-list">
+    <scroll-view class="park-list" style="height: calc(100vh - {{isExpand ? 700 : 180}}rpx)" scroll-y>
+        <view wx:for="{{ parkList }}" wx:key="index" class="park-box" bindtap="popupParkDetail" data-park="{{ item }}">
+            <view class="info-area">
+                <view class="name {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ item.name }}</view>
+                <view class="info">{{ item.address }}</view>
+                <view class="info">开放时间: {{ item.openTime}}</view>
+                <view class="tag {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ dict[item.status] }}</view>
+            </view>
+            <view class="location-area">
+                <view class="distance">距离{{ item.distance }}km</view>
+                <view class="action-area">
+                <image class="location" bindtap="navigateLocation" data-location="{{ item.location }}" src="../../assets/images/park-location.png"></image>
+                <image class="phone" bindtap="call" data-phone="{{ item.phone }}" src="../../assets/images/park-phone.png"></image>
+                </view>
+            </view>
+        </view>
     </scroll-view>
+
+    <page-container
+        show="{{ showDetailShow }}"
+        round
+        position="bottom"
+        class="park-detail"
+    >
+        <view class="notification">
+            <image class="icon" src="../../assets/images/park-broadcast.png"></image>
+            <view class="info">我们的场库很多,千万不要选错哦~</view>
+        </view>
+
+        <view class="park-area">
+            <view class="container">
+                <view class="info-area">
+                    <view class="name">数停车 (城发天地)</view>
+                    <view class="info">古运路196号</view>
+                </view>
+                <view class="location-area">
+                    <view class="info">距离</view>
+                    <view class="distance">1.4km</view>
+                </view>
+            </view>
+            <map id="park-detail-map" class="park-detail-map" latitude="{{ 30.304157 }}" longitude="{{ 120.130155 }}" markers="{{ markersDetail }}"></map>
+        </view>
+        
+        <view class="action-area">
+            <button class="park" bindtap="onPark">点击停车</button>
+        </view>
+    </page-container>
 </view>
