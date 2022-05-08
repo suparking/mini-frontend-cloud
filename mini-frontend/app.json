@@ -4,13 +4,19 @@
         "pages/me/index",
         "pages/order/index",
         "pages/park/index",
-        "pages/login/index"
+        "pages/login/index",
+        "pages/user-privacy/index",
+        "pages/user-protocol/index",
+        "pages/user-car/index",
+        "pages/user-money/index",
+        "pages/user-invoice/index",
+        "pages/user-park/index"
     ],
     "permission": {
         "scope.userLocation": {
-          "desc": "您的位置信息将用于【数停车】匹配最佳停车场库"
+            "desc": "您的位置信息将用于【数停车】匹配最佳停车场库"
         }
-      },
+    },
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",

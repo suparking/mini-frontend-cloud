@@ -35,5 +35,22 @@ Page({
         this.setData({
             mobile
         })
+    },
+
+    /**
+     * 跳转到特定页面
+     * @param {data} e 
+     */
+    gotoCustomPage(e) {
+        const { code } = e.currentTarget.dataset;
+        let url = '';
+        if (code === 'privacy') {
+            url = `/pages/user-privacy/index?code=${code}`;
+        } else if (code === 'protocol') {
+            url = `/pages/user-protocol/index?code=${code}`;
+        }
+        wx.navigateTo({
+            url
+        })
     }
 })
