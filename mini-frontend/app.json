@@ -10,7 +10,14 @@
         "pages/user-car/index",
         "pages/user-money/index",
         "pages/user-invoice/index",
-        "pages/user-park/index"
+        "pages/user-park/index",
+        "pages/lock-park/index",
+        "pages/web-view/index",
+        "pages/park-reverse/index",
+        "pages/park-pay/index",
+        "pages/park-vip/index",
+        "pages/park-discount/index",
+        "pages/park-arrears/index"
     ],
     "permission": {
         "scope.userLocation": {

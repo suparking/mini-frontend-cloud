@@ -3,15 +3,15 @@ const QQMapWX = require('../../utils/qqmap-wx-jssdk.min');
 const constant = require('../../utils/constant')
 // 地图选点接口初始化
 const chooseLocation = requirePlugin('chooseLocation')
-import { behavior } from 'miniprogram-computed'
+// import { behavior } from 'miniprogram-computed'
+import { userBehavior } from '../../behaviors/user-behavior'
 Page({
-    behaviors: [behavior],
+    // behaviors: [behavior],
+    behaviors: [ userBehavior ],
     /**
      * 页面的初始数据
      */
     data: {
-        latitude: 0,
-        longitude: 0,
         online: true,
         markers: [ 
             {id: 0, title: "数停车 (城发天地)", latitude: 30.304157, longitude: 120.130155 , iconPath:"../../assets/images/park-location-online.png", width: '64rpx', height: '64rpx', 
@@ -35,18 +35,7 @@ Page({
                 textAlign: "center"
             }}
          ],
-        markersDetail: [
-            {id: 0, title: "数停车 (城发天地)", latitude: 30.304157, longitude: 120.130155 , iconPath:"../../assets/images/park-location-online.png", width: '64rpx', height: '64rpx', 
-            callout: { 
-                content: "数停车 (城发天地)", 
-                color: "#777777", 
-                fontSize: '20rpx', 
-                display: "ALWAYS", 
-                padding: "10rpx 30rpx",
-                borderRadius: '10rpx',
-                textAlign: "center"
-            }},
-        ],
+        markersDetail: [],
         parkList: [
             {id: 0, name: "数停车 (城发天地)", address: "古运路196号", location: {latitude: 30.304157, longitude: 120.130155}, phone: "18367590702", openTime: "09:00 ~ 22:00", status: 'OPENING', distance: '1.3km'},
             {id: 1, name: "数停车 (大悦城)", address: "古运路190号", location: {latitude: 30.301193, longitude: 120.129962}, phone: "18668232809", openTime: "09:00 ~ 22:00", status: 'CLOSED', distance: '1.0km'}
@@ -68,7 +57,8 @@ Page({
             name:'',
             province:'',
           },
-          showDetailShow: false
+          showDetailShow: false,
+          currentPark: null
     },
     /*
     暂不需要联动
@@ -93,11 +83,22 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: async function(options) {
-        await this.loadCurrentLocation();
+    onLoad: function(options) {
         this.initMapSdk();
         this.initMapContext();
         this.fetchParkList();
+    },
+
+    /**
+     * 场库 页面
+     * @param {场库ID} data 
+     */
+    goToPark: (e) => {
+        console.log(e)
+        const parkId = e.currentTarget.dataset
+        wx.navigateTo({
+          url: `/pages/lock-park/index?parkId=${parkId}`,
+        })
     },
     /**
      * 点击marker事件.
@@ -128,11 +129,30 @@ Page({
     popupParkDetail(e) {
         const park = e.currentTarget.dataset.park;
         if (park.status === 'OPENING') {
+            let currentMarkers = [];
+            let currentMarkerDetail = {
+                id: park.id, 
+                title: park.name, 
+                latitude: park.location.latitude, 
+                longitude: park.location.longitude , iconPath:"../../assets/images/park-location-online.png", width: '64rpx', height: '64rpx', 
+                callout: { 
+                    content: park.name, 
+                    color: "#777777", 
+                    fontSize: '20rpx', 
+                    display: "ALWAYS", 
+                    padding: "10rpx 30rpx",
+                    borderRadius: '10rpx',
+                    textAlign: "center"
+                }}
+                currentMarkers.push(currentMarkerDetail)
             this.setData({
+                markersDetail: currentMarkers,
+                currentPark: park,
                 showDetailShow: true
             })
         } else {
             this.setData({
+                currentPark: null,
                 showDetailShow: false
             })
             wx.showModal({
@@ -148,8 +168,8 @@ Page({
         const key = constant.tencentAK;
         const referer = '数泊停车支付';
         const location = JSON.stringify({
-            latitude: this.data.latitude,
-            longitude: this.data.longitude
+            latitude: this.data.user.location.latitude,
+            longitude: this.data.user.location.longitude
         });
         wx.navigateTo({
             url: 'plugin://chooseLocation/index?key=' + key + '&referer=' + referer + '&location=' + location + '&scale=' + '16'
@@ -180,9 +200,11 @@ Page({
      * 初始化Map Sdk.
      */
     initMapSdk() {
-        this.mapSdk = new QQMapWX({
-            key: constant.tencentAK
-          });
+        if (!this.mapSdk) {
+            this.mapSdk = new QQMapWX({
+                key: constant.tencentAK
+            });
+        }
     },
 
     /**
@@ -219,30 +241,16 @@ Page({
             }
         })
     },
-    /**
-     * load current location.
-     */
-    async loadCurrentLocation() {
-        wx.getLocation({
-            type: 'wgs84',
-            success: (res) => {
-              const latitude = res.latitude
-              const longitude = res.longitude
-              this.setData({
-                  latitude,
-                  longitude
-              })
-            }
-        })
-    },
 
     /**
      * init mapcontext.
      */
     initMapContext() {
-        wx.createSelectorQuery().select('#park-map').context((res) => {
-            this.mapContext = res.context;
-        }).exec();
+        if (!this.mapContext) {
+            wx.createSelectorQuery().select('#park-map').context((res) => {
+                this.mapContext = res.context;
+            }).exec();
+        }
     },
 
     /**

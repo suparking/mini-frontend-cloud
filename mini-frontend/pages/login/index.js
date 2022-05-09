@@ -1,11 +1,11 @@
 // pages/login/index.js
+import { userBehavior } from '../../behaviors/user-behavior'
 Page({
-
+    behaviors: [ userBehavior ],
     /**
      * 页面的初始数据
      */
     data: {
-        phoneNumber: '18668232809'
     },
 
     /**
@@ -15,8 +15,15 @@ Page({
     },
 
     login(e) {
-        console.log(e)
-        wx.setStorageSync('phoneNumber', this.data.phoneNumber);
+        /** 通过接口获取 */
+        let user = {
+            phoneNumber: '18668232809',
+            openId: '321321199010283417',
+            _id: 'ni23sd3232sd2sds32ds'
+        }
+        wx.setStorageSync('user', user);
+        // 立即更新全局 Store
+        this.updatePhoneNumber();
         wx.navigateBack({
           delta: 0,
         })

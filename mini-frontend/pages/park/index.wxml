@@ -7,7 +7,7 @@
             <view class="name">搜索场库</view>
         </view>
     </view>
-    <map id="park-map" class="park-map" style="height: {{ isExpand ? '520rpx' : 0}};" latitude="{{ latitude }}" longitude="{{ longitude }}" show-location enable-3D show-scale markers="{{ markers }}" bindmarkertap="onMarkerTab">
+    <map id="park-map" class="park-map" style="height: {{ isExpand ? '520rpx' : 0}};" latitude="{{ user.location.latitude }}" longitude="{{ user.location.longitude }}" show-location enable-3D show-scale markers="{{ markers }}" bindmarkertap="onMarkerTab">
         <image class="current-icon" src="../../assets/images/current-location.png" bindtap="goToCurrentLocation"></image>
     </map>
     <view class="collapse-area" bindtap="onExpandMap">
@@ -48,19 +48,19 @@
         <view class="park-area">
             <view class="container">
                 <view class="info-area">
-                    <view class="name">数停车 (城发天地)</view>
-                    <view class="info">古运路196号</view>
+                    <view class="name">{{ currentPark.name }}</view>
+                    <view class="info">{{ currentPark.address }}</view>
                 </view>
                 <view class="location-area">
                     <view class="info">距离</view>
-                    <view class="distance">1.4km</view>
+                    <view class="distance">{{ currentPark.distance }}km</view>
                 </view>
             </view>
-            <map id="park-detail-map" class="park-detail-map" latitude="{{ 30.304157 }}" longitude="{{ 120.130155 }}" markers="{{ markersDetail }}"></map>
+            <map id="park-detail-map" class="park-detail-map" latitude="{{ currentPark.location.latitude }}" longitude="{{ currentPark.location.longitude }}" markers="{{ markersDetail }}"></map>
         </view>
         
         <view class="action-area">
-            <button class="park" bindtap="onPark">点击停车</button>
+            <button class="park" bindtap="goToPark" data-park-id="{{ currentPark.id }}">点击停车</button>
         </view>
     </page-container>
 </view>

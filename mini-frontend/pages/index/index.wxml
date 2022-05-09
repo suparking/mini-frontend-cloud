@@ -3,7 +3,7 @@
     <view wx:if="{{ swiperList.length }}" class="swiper-container">
         <swiper bindchange="onSwiperChange">
             <swiper-item wx:for="{{ swiperList }}" wx:key="index">
-                <image mode="aspectFill" src="{{ item.imageUrl }}"></image>
+                <image bindtap="onSwiperTab" data-item="{{ item }}" mode="aspectFill" src="{{ item.imageUrl }}"></image>
             </swiper-item>
         </swiper>
         <view class="dots">
@@ -12,23 +12,23 @@
     </view>
     <!-- 五大菜单 -->
     <view class="banner-list">
-        <view class="banner-area">
+        <view class="banner-area" bindtap="onBannerTab" data-type="pay">
             <image class="banner" src="../../assets/images/park-pay.png"></image>
             <view class="name">停车缴费</view>
         </view>
-        <view class="banner-area">
+        <view class="banner-area" bindtap="onBannerTab" data-type="vip">
             <image class="banner" src="../../assets/images/park-vip.png"></image>
             <view class="name">月卡办理</view>
         </view>
-        <view class="banner-area">
+        <view class="banner-area" bindtap="onBannerTab" data-type="discount">
             <image class="banner" src="../../assets/images/park-discount.png"></image>
             <view class="name">优惠卡包</view>
         </view>
-        <view class="banner-area">
+        <view class="banner-area" bindtap="onBannerTab" data-type="arrears">
             <image class="banner" src="../../assets/images/park-arrears.png"></image>
             <view class="name">欠费补缴</view>
         </view>
-        <view class="banner-area">
+        <view class="banner-area" bindtap="onBannerTab" data-type="reverse">
             <image class="banner" src="../../assets/images/park-reverse.png"></image>
             <view class="name">预约停车</view>
         </view>
@@ -37,9 +37,9 @@
     <view class="menu-banner">
         <view class="location">
             <image src="../../assets/images/location.png"></image>
-            <view class="name">城发天地</view>
+            <view class="name">{{nearbyPark ? nearbyPark.name : '附近暂无场库'}}</view>
         </view>
-        <image class="menu-card" src="../../assets/images/swiper.png"></image>
+        <image class="menu-card" src="../../assets/images/swiper.png" bindtap="onMenuCardClick"></image>
     </view>
 
     <!-- 最近停车信息 -->

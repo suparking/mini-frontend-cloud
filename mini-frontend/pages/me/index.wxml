@@ -4,9 +4,9 @@
     <view class="user-area">
         <view class="user-box">
             <image class="avatar" src="../../assets/images/suparking.png"></image>
-            <view class="name">{{ desensitiveMobile.length > 0 ? desensitiveMobile : '登录获得更多权益' }}</view>
+            <view class="name">{{ user.desensitiveMobile ? user.desensitiveMobile : '登录获得更多权益' }}</view>
         </view>
-        <view wx:if="{{ mobile.length === 0 }}" class="login-btn" bindtap="login">授权登录</view>
+        <view wx:if="{{ !user.isLogin }}" class="login-btn" bindtap="login">授权登录</view>
     </view>
     <!-- 押金,优惠券 -->
     <view class="card-container">
@@ -28,7 +28,7 @@
 
     <view class="list-items">
         <!-- 我的车牌 -->
-        <view class="item me-car">
+        <view class="item me-car" bindtap="gotoCustomPage" data-code="car">
             <view class="content">
                 <image class="icon" src="../../assets/images/me-car.png"></image>
                 <view class="label">我的车辆</view>
@@ -36,7 +36,7 @@
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>
         <!-- 电子发票 -->
-        <view class="item">
+        <view class="item" bindtap="gotoCustomPage" data-code="invoice">
             <view class="content">
                 <image class="icon" src="../../assets/images/me-invoice.png"></image>
                 <view class="label">电子发票</view>
@@ -44,7 +44,7 @@
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>
         <!-- 我的钱包 -->
-        <view class="item">
+        <view class="item" bindtap="gotoCustomPage" data-code="money">
             <view class="content">
                 <image class="icon" src="../../assets/images/me-package.png"></image>
                 <view class="label">我的零钱</view>
@@ -52,14 +52,13 @@
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>
         <!-- 我的车位 -->
-        <view class="item me-park">
+        <view class="item me-park" bindtap="gotoCustomPage" data-code="park">
             <view class="content">
                 <image class="icon" src="../../assets/images/me-park.png"></image>
                 <view class="label">我的车位</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>
-        
     </view>
     <view class="list-items">
         <!-- 隐私协议 -->
