@@ -8,6 +8,7 @@ Page({
      * 页面的初始数据
      */
     data: {
+        phone: '18668232809'
         // desensitiveMobile: ''
     },
 
@@ -20,6 +21,24 @@ Page({
     //         return mobile;
     //     }
     // },
+    /**
+     * 跳转修改手机号码
+     */
+    onEditPhone() {
+        wx.navigateTo({
+          url: '/pages/me-change-phone/index',
+        })
+    },
+    /**
+     * 拨打客服电话
+     * @param {} e 
+     */
+    call(e) {
+        const { phone } = e.currentTarget.dataset;
+        wx.makePhoneCall({
+          phoneNumber: phone,
+        })
+    },
     /**
      * 登录.
      */

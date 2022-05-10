@@ -17,7 +17,8 @@
         "pages/park-pay/index",
         "pages/park-vip/index",
         "pages/park-discount/index",
-        "pages/park-arrears/index"
+        "pages/park-arrears/index",
+        "pages/me-change-phone/index"
     ],
     "permission": {
         "scope.userLocation": {

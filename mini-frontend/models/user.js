@@ -25,7 +25,7 @@ export const user = observable({
     get desensitiveMobile() {
         let mobile = this.phoneNumber;
         if (mobile) {
-            return mobile.replace(/^(\d{3})\d{4}(\d+)/, '$1****$2')
+            return mobile.replace(/^(\d{3})\d{6}(\d+)/, '$1******$2')
         }
         return mobile;
     },

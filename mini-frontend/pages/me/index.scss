@@ -23,7 +23,35 @@
             }
             .name {
                 font-size: 28rpx;
-                margin-left: 24rpx
+                margin-left: 24rpx;
+                margin-right: 10rpx;
+            }
+            .edit-icon {
+                width: 32rpx;
+                height: 32rpx;
+            }
+        }
+        .help-box {
+            width: 150rpx;
+            height: 60rpx;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 0 22rpx;
+            border: 1rpx solid $gray-text-color;
+            border-radius: 29rpx;
+            .icon {
+                width: 40rpx;
+                height: 40rpx;
+            }
+            .name {
+                font-size: 28rpx;
+                font-weight: bold;
+                color: $gray-text-color;
+            }
+            &:active {
+                opacity: 0.8; 
             }
         }
         .login-btn {
