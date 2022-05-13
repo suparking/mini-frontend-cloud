@@ -123,6 +123,12 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad() {
+        if (wx.getStorageSync('user')) {
+            this.updatePhoneNumber();
+            this.updateLocation();
+            this.updateUserId();
+            this.updateAvatarUrl();
+        }
         app.loadCurrentLocation().then(res => {
             if (res) { 
                 this.updateLocation();

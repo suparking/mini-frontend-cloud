@@ -1,1 +1,69 @@
 /* pages/user-car/index.wxss */
+@import "../../style/theme.scss";
+.page {
+    box-sizing: border-box;
+    padding: 0 30rpx;
+    height: 100vh;
+    background-color: #f8f8f8;
+    .car-box {
+        height: 100rpx;
+        background-color: #ffffff;
+        padding: 25rpx;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 10rpx;
+        margin-top: 25rpx;
+        margin-bottom: 25rpx;
+        .plate-area {
+            .plate-name {
+                font-size: 50rpx;
+                font-weight: bold;
+            }
+        }
+        .action-area {
+            width: 250rpx;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .area {
+                width: 120rpx;
+                height: 48rpx;
+                background-color: $primary-color;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 60rpx;
+                &.delete {
+                    background-color: $gray-text-color;
+                }
+                .name {
+                    font-size: 30rpx;
+                    color: #ffffff;
+                }
+                &:active {
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+
+    .add-area {
+        width: 100%;
+        height: 100rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1rpx dashed $gray-text-color;
+        border-radius: 10rpx;
+        .icon {
+            width: 48rpx;
+            height: 48rpx;
+            margin-right: 10rpx;
+        }
+        .name {
+            font-size: 35rpx;
+            color: $primary-color
+        }
+    }
+}

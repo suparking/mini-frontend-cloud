@@ -42,6 +42,20 @@
                     "query": "",
                     "launchMode": "default",
                     "scene": null
+                },
+                {
+                    "name": "我的车牌",
+                    "pathName": "pages/user-car/index",
+                    "query": "code=car",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "添加车牌",
+                    "pathName": "pages/user-bind-plate/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
                 }
             ]
         }

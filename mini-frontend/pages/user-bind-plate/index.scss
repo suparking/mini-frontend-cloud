@@ -1,0 +1,48 @@
+/* pages/user-bind-plate/index.wxss */
+@import "../../template/input-field-template/input-field-template.wxss";
+@import '../../style/theme.scss';
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 0 30rpx;
+    .tips-area {
+        box-sizing: border-box;
+        padding: 0 30rpx;
+        margin-bottom: 15rpx;
+        .content {
+            font-size: 40rpx;
+            color: #ccc; 
+        }
+    }
+    .input-container {
+        display: flex;
+        margin-bottom: 50rpx;
+    }
+    .action-area {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 30rpx;
+        display: flex;
+        .bind {
+            width: 100%;
+            background-color: #ccc;
+            color: #fff;
+            &.bind-active {
+                background-color: $primary-color;
+            }
+            &:active {
+                opacity: 0.6;
+            }
+        }
+    }
+    .keyboard-container {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+    }  
+}
+
+

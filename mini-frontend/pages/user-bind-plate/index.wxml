@@ -1,0 +1,17 @@
+<!--pages/user-bind-plate/index.wxml-->
+<import src="../../template/input-field-template/input-field-template.wxml"></import>
+<!-- 输入框 -->
+<view class="container">
+    <view class="tips-area">
+        <view class="content">请输入车牌号</view>
+    </view>
+    <view class="input-container">
+        <template is="inputField" data="{{ plate, current }}"></template>
+    </view>
+    <view class="action-area">
+        <button class="bind {{ plate.length >= 7 ? 'bind-active' : ''}}" bindtap="goToBind">绑定</button>
+     </view>
+
+    <!-- 键盘 -->
+    <plateKeyboard showPlateKeyboard="{{ isShowKeyboard }}" plate="{{plate}}" current="{{current}}" bind:plateKeyboardAddChange="onPlateKeyboardValueAddChange" bind:plateKeyboardDeleteChange="onPlateKeyboardValueDeleteChange"></plateKeyboard>
+</view>

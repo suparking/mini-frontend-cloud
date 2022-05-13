@@ -3,11 +3,11 @@
 <!-- 用户信息 -->
     <view class="user-area">
         <view class="user-box">
-            <image class="avatar" src="../../assets/images/suparking.png"></image>
+            <image class="avatar" src="{{ user.avatarUrl ? user.avatarUrl : '../../assets/images/suparking.png' }}" bindtap="getUserProfile"></image>
             <view class="name">{{ user.desensitiveMobile ? user.desensitiveMobile : '登录获得更多权益' }}</view>
-            <image class="edit-icon" bindtap="onEditPhone" src="../../assets/images/me-edit.png"></image>
+            <image wx:if="{{ user.isLogin}}" class="edit-icon" bindtap="onEditPhone" src="../../assets/images/me-edit.png"></image>
         </view>
-        <view class="help-box" bindtap="call" data-phone="{{ phone }}" >
+        <view wx:if="{{ user.isLogin }}" class="help-box" bindtap="call" data-phone="{{ phone }}" >
             <image class="icon" src="../../assets/images/me-help.png"></image>
             <view class="name">客服</view>
         </view>

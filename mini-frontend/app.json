@@ -18,7 +18,8 @@
         "pages/park-vip/index",
         "pages/park-discount/index",
         "pages/park-arrears/index",
-        "pages/me-change-phone/index"
+        "pages/me-change-phone/index",
+        "pages/user-bind-plate/index"
     ],
     "permission": {
         "scope.userLocation": {

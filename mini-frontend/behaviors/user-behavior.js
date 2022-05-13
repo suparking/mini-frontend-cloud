@@ -5,7 +5,7 @@ export const userBehavior = BehaviorWithStore({
     storeBindings: [{
         namespace: "user",
         store: user,
-        fields: ["phoneNumber", "desensitiveMobile", "isLogin", "location"],
-        actions: ["updatePhoneNumber", "updateLocation"]
+        fields: ["phoneNumber", "desensitiveMobile", "isLogin", "location", "userId", "avatarUrl"],
+        actions: ["updatePhoneNumber", "updateLocation", "updateUserId", "updateAvatarUrl"]
     }]
 });
