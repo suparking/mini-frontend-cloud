@@ -17,8 +17,8 @@
     </view>
 
     <scroll-view class="park-list" style="height: calc(100vh - {{isExpand ? 700 : 180}}rpx)" scroll-y>
-        <view wx:for="{{ parkList }}" wx:key="index" class="park-box" bindtap="popupParkDetail" data-park="{{ item }}">
-            <view class="info-area">
+        <view wx:for="{{ parkList }}" wx:key="index" class="park-box" >
+            <view class="info-area" bindtap="popupParkDetail" data-park="{{ item }}">
                 <view class="name {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ item.name }}</view>
                 <view class="info">{{ item.address }}</view>
                 <view class="info">开放时间: {{ item.openTime}}</view>

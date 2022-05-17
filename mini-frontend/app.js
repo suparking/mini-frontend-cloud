@@ -7,11 +7,7 @@ App({
       bottomSafeArea: 0
   },
 
-  onLaunch: async function() {
-
-      if (!this.isLogin()) {
-          this.checkUser()
-      }
+  onLaunch: function() {
   },
 
   // 获取机器信息
@@ -55,32 +51,38 @@ App({
    *  微信登录,成功之后跳转到一键登录页面.
    */
   checkUser() {
-    wx.login({
-        success: (res) => {
-            const { code } = res;
-            console.log(code)
-            loginApi.login(code).then(res => {
-                console.log(res);
-                if (res.code === CONSTANT.REQUEST_SUCCESS) {
-                    // 如果获取到用户信息就存储到store
-                    wx.setStorageSync('user', res.data);
-                    wx.navigateTo({
-                      url: '/pages/index/index',
-                    })
-                } else {
-                    wx.navigateTo({
-                        url: `/pages/login/index?code=${code}`,
-                    })
-                }
-            })
-        },
-        fail: (err) => {
-         wx.showToast({
-             title: '登录失败',
-             icon: 'error',
-             duration: 3000
-         }) 
-        }
-     })
+      return new Promise((resolve, reject) => {
+        wx.login({
+            success: (res) => {
+                const { code } = res;
+                loginApi.login(code).then(res => {
+                    console.log(JSON.stringify(res))
+                    if (res.statusCode === CONSTANT.REQUEST_SUCCESS && res.data.code === CONSTANT.REQUEST_SUCCESS && res.data.data !== null) {
+                        const { data } = res.data;
+                        let user = {
+                            id: data.id,
+                            phoneNumber: data.iphone,
+                            miniOpenId: data.miniOpenId,
+                            registerType: data.registerType,
+                            unionId: data.unionId,
+                            enabled: data.enabled,
+                            avatarUrl: ''
+                        }
+                        // 如果获取到用户信息就存储到store
+                        resolve(user);
+                    } else {
+                        reject(`/pages/login/index?code=${code}`)
+                    }
+                })
+            },
+            fail: (err) => {
+             wx.showToast({
+                 title: '登录失败',
+                 icon: 'error',
+                 duration: 3000
+             }) 
+            }
+         })
+      })
   }
 })

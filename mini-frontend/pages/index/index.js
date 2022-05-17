@@ -123,11 +123,18 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad() {
-        if (wx.getStorageSync('user')) {
-            this.updatePhoneNumber();
-            this.updateLocation();
-            this.updateUserId();
-            this.updateAvatarUrl();
+        if (!app.isLogin()) {
+            app.checkUser().then(res => {
+                wx.setStorageSync('user', res);
+                this.updatePhoneNumber();
+                this.updateLocation();
+                this.updateUserId();
+                this.updateAvatarUrl();
+            }).catch(reason => {
+                wx.navigateTo({
+                    url: reason,
+                })
+            })
         }
         app.loadCurrentLocation().then(res => {
             if (res) { 

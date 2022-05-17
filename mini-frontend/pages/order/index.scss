@@ -1,0 +1,51 @@
+@import '../../style/theme.scss';
+.scroll-wrapper {
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    background-color: #fff;
+    height: 90rpx;
+    padding: 0 30rpx;
+    box-sizing: border-box;
+    ::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        color: transparent;
+    }
+    .navigate-item {
+        display: inline-block;
+        text-align: center;
+        height: 90rpx;
+        line-height: 90rpx;
+        margin: 0 16rpx;
+        .names {
+            font-size: 28rpx;
+            color: #777777;
+            &.active {
+                color: black;
+                font-weight: bold;
+            }
+        }
+        .currtline {
+            margin: -8rpx auto 0 auto;
+            width: 100rpx;
+            height: 8rpx;
+            border-radius: 4rpx;
+            &.active {
+                background: #ff6729;
+                transition: all 0.5s;
+            }
+        }
+    }
+}
+.swiper-container {
+    min-height: calc(100vh - 100rpx);
+    .scroll-block {
+        overflow: scroll;
+        height: calc(100vh - 100rpx);
+        .item {
+            width: 100%;
+            text-align: center;
+            padding: 30rpx 0;
+        }
+    }
+}

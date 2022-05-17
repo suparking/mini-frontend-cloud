@@ -43,7 +43,8 @@ Page({
      * 发送接口请求短信
      */
     onGetCode() {
-        if (!this.data.phoneNumber) {
+        let reg = /^[1](3|[5-9])\d{9}$/;
+        if (!reg.test(this.data.phoneNumber)) {
             wx.showToast({
                 title: '请输入正确的手机号',
                 icon: 'none',

@@ -22,16 +22,19 @@ Page({
     //     }
     // },
     getUserProfile() {
+        const user = wx.getStorageSync('user');
+        if (user && !user.avatarUrl) {
         wx.getUserProfile({
-          desc: '完善数停车用户信息',
-          success: (res) => {
-              console.log(res)
-              const user = wx.getStorageSync('user');
-              user.avatarUrl = res.userInfo.avatarUrl;
-              wx.setStorageSync('user', user);
-              this.updateAvatarUrl();
-          }
-        })
+                desc: '完善数停车用户信息',
+                success: (res) => {
+                    const user = wx.getStorageSync('user');
+                    user.avatarUrl = res.userInfo.avatarUrl;
+                    wx.setStorageSync('user', user);
+                    this.updateAvatarUrl();
+                }
+            })
+        }
+        
     },
     /**
      * 跳转修改手机号码

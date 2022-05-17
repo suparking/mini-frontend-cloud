@@ -1,6 +1,7 @@
 // pages/login/index.js
 import { userBehavior } from '../../behaviors/user-behavior'
 import loginApi from '../../api/login'
+import CONSTANT from '../../utils/constant'
 Page({
     behaviors: [ userBehavior ],
     /**
@@ -15,10 +16,10 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        // const { code } = options;
-        // this.setData({
-        //     code
-        // })
+        const { code } = options;
+        this.setData({
+            code
+        })
     },
 
     /**
@@ -45,24 +46,35 @@ Page({
                 duration: 3000
             })
         } else {
-            // code2session 与手机号一起获取
+            // register 与手机号一起获取
             const { code } = this.data;
-            const { encryptedData, iv } = e.detail
-            loginApi.code2session({ code, encryptedData, iv}).then(res => {
-                console.log(res);
-                var user = {
-                    phoneNumber: res.data.phoneNumber,
-                    openId: res.data.openId,
-                    id: res.data.id,
-                    unionId: res.data.unionId,
-                    avatarUrl: ''
+            const phoneCode = e.detail.code;
+            loginApi.register({ code, phoneCode: phoneCode }).then(res => {
+                console.log(res)
+                if (res.statusCode === CONSTANT.REQUEST_SUCCESS && res.data.code === CONSTANT.REQUEST_SUCCESS && res.data.data !== null) {
+                    const { data } = res.data;
+                    var user = {
+                        id: data.id,
+                        phoneNumber: data.iphone,
+                        miniOpenId: data.miniOpenId,
+                        registerType: data.registerType,
+                        unionId: data.unionId,
+                        enabled: data.enabled,
+                        avatarUrl: ''
+                    }
+                    wx.setStorageSync('user', user);
+                    this.updatePhoneNumber();
+                    this.updateUserId();
+                    wx.navigateBack({
+                        delta: 0
+                    })
+                } else {
+                    wx.showToast({
+                        title: `注册失败 ${res.data.data.message}`,
+                        icon: 'none',
+                        duration: 3000
+                    })
                 }
-                wx.setStorageSync('user', user);
-                this.updatePhoneNumber();
-                this.updateUserId();
-                wx.navigateBack({
-                    delta: 0
-                })
             })
         }
     }

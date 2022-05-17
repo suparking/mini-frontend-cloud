@@ -1,2 +1,17 @@
-<!--pages/order/index.wxml-->
-<text>pages/order/index.wxml</text>
+<scroll-view class="scroll-wrapper" scroll-x scroll-with-animation="true" scroll-into-view="item{{ currentTab < 4 ? 0 : currentTab - 3 }}">
+    <view class="navigate-item" id="item{{ index }}" wx:for="{{ orderList }}" wx:key="index" data-index="{{ index }}" bindtap="handleClick">
+        <view class="names {{ currentTab === index ? 'active' : '' }}"> {{ item.name }} </view>
+        <view class="currtline {{ currentTab === index ? 'active' : '' }}"></view>
+    </view>
+</scroll-view>
+
+<swiper class="swiper-container" indicator-dots="{{ false }}" bindchange="handleSwiper" current="{{ currentTab }}">
+    <block wx:for="{{ orderList }}" wx:key="idx">
+        <swiper-item>
+            <scroll-view class="scroll-block" style="overflow: scroll;" scroll-y refresher-enabled refresher-background="#CCCCCC" refresher-triggered="{{ isRefresh }}" bindrefresherrefresh="refresherpulling" bindscrolltolower="handleTolower">
+                <view class="item" wx:for="{{ 20 }}" wx:key="index">第{{index + 1}}页</view>
+                <view class="item">最后1页</view>
+            </scroll-view>
+        </swiper-item>
+    </block>
+</swiper>

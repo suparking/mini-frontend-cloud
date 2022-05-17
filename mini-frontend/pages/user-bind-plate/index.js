@@ -25,7 +25,7 @@ Page({
      */
     onPlateKeyboardValueDeleteChange(e) {
         let { current } = this.data;
-        if (e.detail.length > 0) {
+        if (e.detail.length >= 0) {
             current -= 1;
         }
         this.setData({
