@@ -56,7 +56,6 @@ App({
             success: (res) => {
                 const { code } = res;
                 loginApi.login(code).then(res => {
-                    console.log(JSON.stringify(res))
                     if (res.statusCode === CONSTANT.REQUEST_SUCCESS && res.data.code === CONSTANT.REQUEST_SUCCESS && res.data.data !== null) {
                         const { data } = res.data;
                         let user = {
@@ -73,6 +72,12 @@ App({
                     } else {
                         reject(`/pages/login/index?code=${code}`)
                     }
+                }).catch(err => {
+                    wx.showToast({
+                      title: '登录异常',
+                      icon: 'error',
+                      duration: 3000
+                    })
                 })
             },
             fail: (err) => {

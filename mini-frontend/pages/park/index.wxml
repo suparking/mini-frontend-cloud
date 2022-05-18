@@ -27,8 +27,8 @@
             <view class="location-area">
                 <view class="distance">距离{{ item.distance }}km</view>
                 <view class="action-area">
-                <image class="location" bindtap="navigateLocation" data-location="{{ item.location }}" src="../../assets/images/park-location.png"></image>
-                <image class="phone" bindtap="call" data-phone="{{ item.phone }}" src="../../assets/images/park-phone.png"></image>
+                    <image class="location" bindtap="navigateLocation" data-location="{{ item.location }}" src="../../assets/images/park-location.png"></image>
+                    <image class="phone" bindtap="call" data-phone="{{ item.phone }}" src="../../assets/images/park-phone.png"></image>
                 </view>
             </view>
         </view>

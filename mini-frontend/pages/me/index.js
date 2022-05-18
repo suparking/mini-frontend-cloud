@@ -1,5 +1,6 @@
 // pages/me/index.ts
 import { userBehavior } from '../../behaviors/user-behavior'
+const app = getApp();
 // const computedBehavior = require('miniprogram-computed').behavior
 Page({
     // behaviors: [userBehavior, computedBehavior],
@@ -58,9 +59,41 @@ Page({
      * 登录.
      */
     login() {
-        wx.navigateTo({
-          url: '/pages/login/index',
+        app.checkUser().then(res => {
+            wx.setStorageSync('user', res);
+            this.updatePhoneNumber();
+            this.updateLocation();
+            this.updateUserId();
+            this.updateAvatarUrl();
+        }).catch(reason => {
+            wx.navigateTo({
+                url: reason,
+            })
         })
+    },
+    /**
+     * 退出登录
+     */
+    onLogout() {
+        wx.showLoading({
+          title: '正在退出...',
+          mask: true,
+        })
+        setTimeout(() => {
+            wx.removeStorageSync('user');
+            this.updatePhoneNumber();
+            this.updateLocation();
+            this.updateUserId();
+            this.updateAvatarUrl()
+            wx.hideLoading()
+            wx.showToast({
+              title: '退出成功',
+              icon: 'none',
+              duration: 3000
+            })
+          }, 3000)
+
+        
     },
     /**
      * 生命周期函数--监听页面加载

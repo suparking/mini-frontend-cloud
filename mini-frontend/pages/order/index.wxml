@@ -1,16 +1,49 @@
 <scroll-view class="scroll-wrapper" scroll-x scroll-with-animation="true" scroll-into-view="item{{ currentTab < 4 ? 0 : currentTab - 3 }}">
-    <view class="navigate-item" id="item{{ index }}" wx:for="{{ orderList }}" wx:key="index" data-index="{{ index }}" bindtap="handleClick">
+    <view class="navigate-item" id="item{{ index }}" wx:for="{{ orderTabList }}" wx:key="index" data-index="{{ index }}" bindtap="handleClick">
         <view class="names {{ currentTab === index ? 'active' : '' }}"> {{ item.name }} </view>
         <view class="currtline {{ currentTab === index ? 'active' : '' }}"></view>
     </view>
 </scroll-view>
 
 <swiper class="swiper-container" indicator-dots="{{ false }}" bindchange="handleSwiper" current="{{ currentTab }}">
-    <block wx:for="{{ orderList }}" wx:key="idx">
+    <block wx:for="{{ orderTabList }}" wx:key="idx">
         <swiper-item>
-            <scroll-view class="scroll-block" style="overflow: scroll;" scroll-y refresher-enabled refresher-background="#CCCCCC" refresher-triggered="{{ isRefresh }}" bindrefresherrefresh="refresherpulling" bindscrolltolower="handleTolower">
-                <view class="item" wx:for="{{ 20 }}" wx:key="index">第{{index + 1}}页</view>
-                <view class="item">最后1页</view>
+            <scroll-view class="scroll-block" style="overflow: scroll;" scroll-y refresher-enabled refresher-background="#f8f8f8" refresher-triggered="{{ isRefresh }}" bindrefresherrefresh="refresherpulling" bindscrolltolower="handleTolower">
+                <view wx:if="{{ currentTab === 0}}" class="order-box" wx:for="{{ lockOrderList }}" wx:key="index">
+                    <view class="header">
+                        <view class="name">{{ item.name }}</view>
+                        <view class="status-area">
+                            <view class="content">{{ dict[item.status] }}</view>
+                            <image class="icon" src="../../assets/images/me-right.png"></image>
+                        </view>
+                    </view>
+                    <view class="container">
+                        <view class="info-area" bindtap="popupOrderDetail" data-park="{{ item }}">
+                            <view class="info">位置: {{ item.address }}</view>
+                            <view class="info">时间: {{ item.time }}</view>
+                            <view class="info">时长: {{ item.minutes }}</view>
+                            <view wx:if="{{ item.status === 'COMPLETE' || item.status === 'REFUND' }}" class="info">支付: {{ item.payTime }}</view>
+                            <view wx:if="{{ item.status === 'REFUND'}}" class="info">退费: {{ item.refundTime }}</view>
+                        </view>
+                        <view class="action-area">
+                            <view class="btn-area" >
+                                <view wx:if="{{ item.status === 'COMPLETE' || item.status === 'REFUND' }}" class="action park" bindtap="onPark" data-item="{{ item }}">
+                                    <view class="btn park">停车</view>
+                                </view>
+                                <view wx:if="{{ item.status === 'RUNNING' }}" class="action pay" bindtap="onPay" data-item="{{ item }}">
+                                    <view class="btn pay">缴费</view>
+                                </view>
+                                <view wx:if="{{ item.status === 'COMPLETE' }}" class="action refund" bindtap="onRefund" data-item="{{ item }}">
+                                    <view class="btn refund">退费</view>
+                                </view>
+                                <view class="action question" bindtap="onQuest" data-item="{{ item }}" >
+                                    <view class="btn question">疑惑</view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="end-area">没有更多了</view>
             </scroll-view>
         </swiper-item>
     </block>

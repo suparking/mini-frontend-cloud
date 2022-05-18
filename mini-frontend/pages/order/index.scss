@@ -42,7 +42,90 @@
     .scroll-block {
         overflow: scroll;
         height: calc(100vh - 100rpx);
-        .item {
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #f8f8f8;
+        transition: all 0.5s;
+        .order-box {
+            background-color: #ffffff;
+            border-radius: 10rpx;
+            padding: 25rpx;
+            margin: 14rpx 25rpx;
+            flex: 1;
+            .header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 5rpx;
+                .name {
+                    font-size: 28rpx;
+                    font-weight: bold;
+                }
+                .status-area {
+                    display: flex;
+                    align-items: center;
+                    .content {
+                        font-size: 28rpx;
+                        color: $gray-text-color;
+                        margin-right: 5rpx;
+                    }
+                    .icon {
+                        width: 24rpx;
+                        height: 24rpx;
+                    }
+                }
+            }
+            .container {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .info-area {
+                    .info {
+                        font-size: 20rpx;
+                        color: $gray-text-color;
+                        margin-bottom: 5rpx;
+                    }
+                }
+                .action-area {
+                    border-left: 1rpx solid #eeeeee;
+                    display: flex;
+                    align-items: center;
+                    .btn-area {
+                        box-sizing: border-box;
+                        padding: 0 30rpx;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        .action {
+                            width: 80rpx;
+                            height: 40rpx;
+                            border: 1rpx solid $gray-text-color;
+                            border-radius: 20rpx;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin-top: 10rpx;
+                            &.pay {
+                                border-color: $primary-color;
+                            }
+                            &:active {
+                                opacity: 0.8;
+                            }
+                            .btn {
+                                font-size: 20rpx;
+                                color: $gray-text-color;
+                                &.pay {
+                                    color: $primary-color
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .end-area {
+            color: $gray-text-color;
             width: 100%;
             text-align: center;
             padding: 30rpx 0;

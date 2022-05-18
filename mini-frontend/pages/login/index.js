@@ -47,7 +47,7 @@ Page({
             })
         } else {
             // register 与手机号一起获取
-            const { code } = this.data;
+            var { code } = this.data;
             const phoneCode = e.detail.code;
             loginApi.register({ code, phoneCode: phoneCode }).then(res => {
                 console.log(res)
@@ -75,6 +75,13 @@ Page({
                         duration: 3000
                     })
                 }
+            }).catch(err => {
+                wx.showToast({
+                  title: '登录异常',
+                  icon: 'error',
+                  duration: 3000
+                })
+                // 下面跳转到 异常呼叫页面
             })
         }
     }
