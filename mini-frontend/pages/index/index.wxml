@@ -37,9 +37,9 @@
     <view class="menu-banner">
         <view class="location">
             <image src="../../assets/images/location.png"></image>
-            <view class="name">{{nearbyPark ? nearbyPark.name : '附近暂无场库'}}</view>
+            <view class="name">{{nearByPark ? nearByPark.name : '附近暂无场库'}}</view>
         </view>
-        <image class="menu-card" src="../../assets/images/swiper.png" bindtap="onMenuCardClick"></image>
+        <image class="menu-card" src="../../assets/images/parking.png" bindtap="onMenuCardClick"></image>
     </view>
 
     <!-- 最近停车信息 -->

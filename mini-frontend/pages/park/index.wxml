@@ -1,13 +1,13 @@
 <!--pages/park/index.wxml-->
 <view class="page">
     <view class="header">
-        <tabs tabs="{{ [{ value: 'nearby', label: '附近场库' },{ value: 'recent', label: '常去场库' }] }}"></tabs>
-        <view class="search" bindtap="onSearch">
+        <tabs tabs="{{ [{ value: 'nearby', label: '附近场库' },{ value: 'recent', label: '常去场库' }] }}" bindregular="onRegular"></tabs>
+        <view wx:if="{{currentParkPage === 'near'}}" class="search" bindtap="onSearch">
             <image class="icon" src="../../assets/images/park-search.png"></image>
             <view class="name">搜索场库</view>
         </view>
     </view>
-    <map id="park-map" class="park-map" style="height: {{ isExpand ? '520rpx' : 0}};" latitude="{{ user.location.latitude }}" longitude="{{ user.location.longitude }}" show-location enable-3D show-scale markers="{{ markers }}" bindmarkertap="onMarkerTab">
+    <map id="park-map" class="park-map" style="height: {{ isExpand ? '520rpx' : 0}};" latitude="{{ user.location.latitude }}" longitude="{{ user.location.longitude }}" show-location show-scale markers="{{ markers }}" bindmarkertap="onMarkerTab">
         <image class="current-icon" src="../../assets/images/current-location.png" bindtap="goToCurrentLocation"></image>
     </map>
     <view class="collapse-area" bindtap="onExpandMap">
@@ -22,7 +22,17 @@
                 <view class="name {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ item.name }}</view>
                 <view class="info">{{ item.address }}</view>
                 <view class="info">开放时间: {{ item.openTime}}</view>
-                <view class="tag {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ dict[item.status] }}</view>
+                <view class="tag-area">
+                    <view class="tag {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ dict[item.status] }}</view>
+                    <view class="free-park-area">
+                        <image class="icon" src="../../assets/images/park-free.png"></image>
+                        <view class="content">{{item.free}}</view>
+                    </view>
+                    <view class="charge-area">
+                        <image class="icon" src="../../assets/images/park-charge.png"></image>
+                        <view class="content">{{item.perCharge}}元/1小时</view>
+                    </view>
+                </view>
             </view>
             <view class="location-area">
                 <view class="distance">距离{{ item.distance }}km</view>
@@ -33,6 +43,14 @@
             </view>
         </view>
     </scroll-view>
+
+    <modalView show="{{ showModal }}" bindconfirm="modalConfirm" single="{{single}}" confirmName="选择其他场库" tipsContent="车位紧缺,暂停开放">
+        <view class="modal-content">
+            <scroll-view scroll-y class="main-content">
+                <image class="icon" style="width: 350rpx; height: 300rpx;" src="../../assets/images/no-parking.png"></image>
+            </scroll-view>
+        </view>
+    </modalView>
 
     <page-container
         show="{{ showDetailShow }}"

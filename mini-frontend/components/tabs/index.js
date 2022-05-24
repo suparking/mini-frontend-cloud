@@ -37,6 +37,19 @@ Component({
                 current: index
             })
             this.calculateLinePositionX(index)
+            let regularDetail = {
+                index: this.data.current,
+                name: '' 
+            };
+            let regularOption = {
+
+            }
+            if (this.data.current === 1) {
+                regularDetail.name = 'regular';
+            } else {
+                regularDetail.name = 'near';
+            }
+            this.triggerEvent('regular', regularDetail, regularOption);
         },
         calculateLinePositionX(index = 0) {
             this.createSelectorQuery().selectAll('.tab').boundingClientRect(results => {

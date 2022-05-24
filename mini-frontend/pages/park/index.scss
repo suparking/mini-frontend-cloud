@@ -88,14 +88,45 @@
                 color: $gray-text-color;
                 margin-bottom: 5rpx;
             }
-            .tag {
-                display: inline;
-                background-color: $primary-color;
-                font-size: 18rpx;
-                color: #fff;
-                padding: 6rpx 8rpx;
-                &.active {
-                    background-color: $gray-text-color;
+            .tag-area {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .tag {
+                    display: inline;
+                    background-color: $primary-color;
+                    font-size: 18rpx;
+                    color: #fff;
+                    padding: 6rpx 8rpx;
+                    &.active {
+                        background-color: $gray-text-color;
+                    }
+                }
+                .icon {
+                    width: 24rpx;
+                    height: 24rpx;
+                    margin-right: 5rpx;
+                }
+                
+
+                .free-park-area {
+                    display: flex;
+                    align-items: center;
+                    .content {
+                        font-size: 20rpx;
+                        color: $gray-text-color;
+                        width: 50rpx;
+                    }
+                }
+                .charge-area {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 20rpx;
+                    .content {
+                        font-size: 20rpx;
+                        color: $gray-text-color;
+                        width: 150rpx;
+                    }
                 }
             }
         }
@@ -200,6 +231,14 @@
             align-items: center;
             &.button-hover {
                 opacity: 0.6;
+            }
+        }
+    }
+    .modal-content {
+        .main-content {
+            .icon {
+                width: 128rpx;
+                height: 128rpx;
             }
         }
     }

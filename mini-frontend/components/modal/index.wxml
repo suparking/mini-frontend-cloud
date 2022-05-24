@@ -1,0 +1,13 @@
+<!--components/modal/index.wxml-->
+<view class="modal-mask" wx:if="{{ show }}" bindtap="clickMask">
+    <view class="modal-content">
+        <scroll-view scroll-y class="main-content">
+            <slot></slot>
+        </scroll-view>
+        <view class="tips">{{ tipsContent }}</view>
+        <view class="modal-footer">
+            <view wx:if="{{ !single }}" class="cancel-btn" bindtap="cancel">{{ cancenName }}</view> 
+            <view class="confirm-btn" bindtap="confirm">{{ confirmName }}</view>
+        </view>
+    </view>
+</view>

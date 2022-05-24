@@ -1,10 +1,11 @@
 // pages/park/index.ts
 const QQMapWX = require('../../utils/qqmap-wx-jssdk.min');
-const constant = require('../../utils/constant')
+const CONSTANT = require('../../utils/constant')
 // 地图选点接口初始化
 const chooseLocation = requirePlugin('chooseLocation')
 // import { behavior } from 'miniprogram-computed'
 import { userBehavior } from '../../behaviors/user-behavior'
+import parkApi from "../../api/park";
 Page({
     // behaviors: [behavior],
     behaviors: [ userBehavior ],
@@ -13,33 +14,9 @@ Page({
      */
     data: {
         online: true,
-        markers: [ 
-            {id: 0, title: "数停车 (城发天地)", latitude: 30.304157, longitude: 120.130155 , iconPath:"../../assets/images/park-location-online.png", width: '64rpx', height: '64rpx', 
-            callout: { 
-                content: "数停车 (城发天地)", 
-                color: "#777777", 
-                fontSize: '20rpx', 
-                display: "BYCLICK", 
-                padding: "10rpx 30rpx",
-                borderRadius: '10rpx',
-                textAlign: "center"
-            }},
-            {id: 1, title: "数停车 (大悦城)", latitude: 30.301193, longitude: 120.129962 , iconPath:"../../assets/images/park-location-offline.png", width: '64rpx', height: '64rpx', 
-            callout: { 
-                content: "数停车 (大悦城)", 
-                color: "#777777", 
-                fontSize: '20rpx', 
-                display: "BYCLICK", 
-                padding: "10rpx 30rpx",
-                borderRadius: '10rpx',
-                textAlign: "center"
-            }}
-         ],
+        markers: [],
         markersDetail: [],
-        parkList: [
-            {id: 0, name: "数停车 (城发天地)", address: "古运路196号", location: {latitude: 30.304157, longitude: 120.130155}, phone: "18367590702", openTime: "09:00 ~ 22:00", status: 'OPENING', distance: '1.3km'},
-            {id: 1, name: "数停车 (大悦城)", address: "古运路190号", location: {latitude: 30.301193, longitude: 120.129962}, phone: "18668232809", openTime: "09:00 ~ 22:00", status: 'CLOSED', distance: '1.0km'}
-        ],
+        parkList: [],
         mapContext: null,
         isExpand: true,
         dict: {
@@ -58,7 +35,10 @@ Page({
             province:'',
           },
           showDetailShow: false,
-          currentPark: null
+          currentPark: null,
+          showModal: false,
+          single: true,
+          currentParkPage: 'near'
     },
     /*
     暂不需要联动
@@ -80,6 +60,23 @@ Page({
         }
     },
     */
+   onRegular: function(e) {
+       const { detail } = e
+       if (detail.name === 'regular') {
+
+       } else if (detail.name === 'near') {
+           this.onShow();
+       }
+       this.setData({
+           currentParkPage: detail.name 
+       })
+   },
+   /**
+    * 未开放停车场库弹出modal 确定按钮回调 
+    * @param {*} e 
+    */
+   modalConfirm: (e) => {
+   },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -87,8 +84,129 @@ Page({
         this.initMapSdk();
         this.initMapContext();
         this.fetchParkList();
+        // 获取所有marks
+        this.pullMarks();
     },
-
+    // 获取常去场库
+    pullRegularPark() {
+        
+    },
+    // 获取地图marks.
+    pullMarks() {
+        parkApi.allMarks().then(res => {
+            const { data } = res;
+            if (data.code === CONSTANT.REQUEST_SUCCESS) {
+                const parks = data.data;
+                if (parks.length > 0) {
+                    let markers = [];
+                    parks.forEach((park, index) => {
+                        let icon = '../../assets/images/park-location-offline.png'
+                        if (park.status === 'true') {
+                            icon = '../../assets/images/park-location-online.png'
+                        }
+                        let tPark = {
+                            id: index,
+                            title: '数停车' + ' (' + park.projectName + ')',
+                            latitude: park.location.latitude,
+                            longitude: park.location.longitude,
+                            iconPath: icon,
+                            width: '64rpx',
+                            height: '64rpx',
+                            status: park.status === 'true' ? 'OPENING' : 'CLOSED' ,
+                            callout: {
+                                content: '数停车' + ' (' + park.projectName + ')', 
+                                color: "#777777", 
+                                fontSize: '20rpx', 
+                                display: "ALWAYS", 
+                                padding: "10rpx 30rpx",
+                                borderRadius: '10rpx',
+                                textAlign: "center" 
+                            }
+                        }
+                        markers.push(tPark);
+                    })
+                    this.setData({
+                        markers
+                    })
+                }
+            } 
+        })
+    },
+    /**
+     * 获取前十个场库
+     */
+    pullParkList() {
+        return new Promise((resolve, reject) => {
+            let { location } = this.data.user
+            var currentLocation = null;
+            if (location) {
+                currentLocation = {
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    number: 10,
+                    radius: CONSTANT.DEFAULT_RADIUS
+                }
+            } else {
+                app.loadCurrentLocation().then(res => {
+                    if (res) { 
+                        this.updateLocation();
+                        currentLocation = {
+                            latitude: location.latitude,
+                            longitude: location.longitude,
+                            number: 10,
+                            radius: CONSTANT.DEFAULT_RADIUS 
+                        }
+                    }
+                })
+            }
+            parkApi.nearbyStore(currentLocation).then(res => {
+                const { data } = res;
+                if (data.code === CONSTANT.REQUEST_SUCCESS) {
+                    const parks = data.data;
+                    if (parks && parks.length > 0) {
+                        let parkList = [];
+                        parks.forEach((park, index) => {
+                            let tPark = {
+                                id: index,
+                                name: '数停车' + ' (' + park.projectName + ')',
+                                address:park.addressSelect.split('-')[park.addressSelect.split('-').length - 1],
+                                location: park.location,
+                                phone: park.helpLine,
+                                openTime: park.openTime.join(' ~ '),
+                                status: park.status === 'true' ? 'OPENING' : 'CLOSED',
+                                distance: '',
+                                perCharge: '',
+                                free: ''
+                            }
+                            parkList.push(tPark);
+                        })
+                        this.setData({
+                            parkList
+                        })
+                        resolve(true);
+                    }
+                } else {
+                    reject(false)
+                }
+            })
+        })
+    },
+    onShow: function() {
+        //通过获取用户信息,如果存在则赋值
+        this.pullParkList().then(res => {
+            wx.showToast({
+              title: '获取场库成功',
+              icon: 'success',
+              duration: 3000
+            })
+        }).catch(err => {
+            wx.showToast({
+              title: '获取场库失败',
+              icon: 'error',
+              duration: 3000
+            })
+        })
+    },
     /**
      * 场库 页面
      * @param {场库ID} data 
@@ -105,19 +223,23 @@ Page({
      * @param {*} e 
      */
     onMarkerTab(e) {
+        console.log(e)
         const { markerId } = e.detail;
-        const currentPark = this.data.parkList[markerId]
+        const currentPark = this.data.markers[markerId]
+        const park = this.data.parkList.find(item => item.name === currentPark.title);
         if (currentPark.status === 'OPENING') {
+            let currentMarkers = [];
+            currentMarkers.push(currentPark);
             this.setData({
+                markersDetail: currentMarkers,
+                currentPark: park,
                 showDetailShow: true
             })
         } else {
             this.setData({
-                showDetailShow: false
-            })
-            wx.showModal({
-                content: "请选择其他场库",
-                duration: 5
+                currentPark: null,
+                showDetailShow: false,
+                showModal: true
             })
         }
 
@@ -153,11 +275,8 @@ Page({
         } else {
             this.setData({
                 currentPark: null,
-                showDetailShow: false
-            })
-            wx.showModal({
-                content: "请选择其他场库",
-                duration: 5
+                showDetailShow: false,
+                showModal: true
             })
         }
     },
@@ -165,7 +284,7 @@ Page({
      * 搜索场库.
      */
     onSearch() {
-        const key = constant.tencentAK;
+        const key = CONSTANT.tencentAK;
         const referer = '数泊停车支付';
         const location = JSON.stringify({
             latitude: this.data.user.location.latitude,
@@ -202,7 +321,7 @@ Page({
     initMapSdk() {
         if (!this.mapSdk) {
             this.mapSdk = new QQMapWX({
-                key: constant.tencentAK
+                key: CONSTANT.tencentAK
             });
         }
     },
@@ -211,8 +330,10 @@ Page({
      * 获取场库list
      */
     fetchParkList() {
-        // 原数据 经过计算位置之后赋值
-        this.makeParkList(this.data.parkList);
+        this.pullParkList().then(res => {
+            // 原数据 经过计算位置之后赋值
+            this.makeParkList(this.data.parkList);
+        })
     },
 
     /**

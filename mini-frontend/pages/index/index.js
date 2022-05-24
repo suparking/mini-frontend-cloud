@@ -1,6 +1,7 @@
 // pages/index/index.ts
 import { userBehavior } from "../../behaviors/user-behavior"
 import parkApi from "../../api/park"
+const CONSTANT = require('../../utils/constant')
 const app = getApp();
 Page({
     behaviors: [ userBehavior ],
@@ -34,7 +35,7 @@ Page({
         current: 0,
         isLogin: false,
         // 最近场库
-        nearbyPark: null
+        nearByPark: null
     },
 
     /**
@@ -115,9 +116,18 @@ Page({
      * 点击立即停车.
      */
     onMenuCardClick() {
-        wx.switchTab({
-          url: '/pages/park/index',
-        })
+        const { location } = this.data.user;
+        if (!location) {
+            app.loadCurrentLocation().then(res => {
+                if (res) { 
+                    this.updateLocation();
+                }
+            }) 
+        } else {
+            wx.switchTab({
+              url: '/pages/park/index',
+            })
+        }
     },
     /**
      * 生命周期函数--监听页面加载
@@ -126,8 +136,12 @@ Page({
         if (!app.isLogin()) {
             app.checkUser().then(res => {
                 wx.setStorageSync('user', res);
+                app.loadCurrentLocation().then(res => {
+                    if (res) { 
+                        this.updateLocation();
+                    }
+                })
                 this.updatePhoneNumber();
-                this.updateLocation();
                 this.updateUserId();
                 this.updateAvatarUrl();
             }).catch(reason => {
@@ -136,11 +150,6 @@ Page({
                 })
             })
         }
-        app.loadCurrentLocation().then(res => {
-            if (res) { 
-                this.updateLocation();
-            }
-        })
     },
 
     /**
@@ -156,11 +165,47 @@ Page({
     onShow() {
         //通过获取用户信息,如果存在则赋值
         let { location } = this.data.user
-        parkApi.nearbyStore(location).then(res => {
-            if (res.length) {
-                this.setData({
-                    nearbyPark: res[0]
-                })
+        var currentLocation = null;
+        if (location) {
+            currentLocation = {
+                latitude: location.latitude,
+                longitude: location.longitude,
+                number: 1,
+                radius: CONSTANT.DEFAULT_RADIUS
+            }
+        } else {
+            app.loadCurrentLocation().then(res => {
+                if (res) { 
+                    this.updateLocation();
+                    currentLocation = {
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                        number: 1,
+                        radius: CONSTANT.DEFAULT_RADIUS 
+                    }
+                }
+            })
+        }
+        parkApi.nearbyStore(currentLocation).then(res => {
+            const { data } = res;
+            if (data.code === CONSTANT.REQUEST_SUCCESS) {
+                if (data.data) {
+                    const park = data.data[0];
+                    let nearByPark = {
+                        id: park.id,
+                        name: '数停车' + ' (' + park.projectName + ')',
+                        address:park.addressSelect.split('-')[park.addressSelect.split('-').length - 1],
+                        location: park.location,
+                        phone: park.helpLine,
+                        openTime: park.openTime,
+                        status: park.status ? 'OPENING' : 'CLOSED',
+                        distance: park.value / 1000 + 'km',
+                        perCharge: ''
+                    }
+                    this.setData({
+                        nearByPark
+                    })
+                }
             }
         })
     },
