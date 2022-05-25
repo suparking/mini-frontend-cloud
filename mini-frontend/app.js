@@ -27,13 +27,16 @@ App({
         const locationInfo = wx.getStorageSync('location');
         if (!locationInfo)  {
           wx.getLocation({
-              type: 'wgs84',
+              type: 'gcj02',
               success: (res) => {
                   const longitude = res.longitude;
                   const latitude = res.latitude;
                   console.log(longitude, latitude)
                   wx.setStorageSync('location', { longitude, latitude });
                   resolve({longitude, latitude});
+                },
+                fail: (err) => {
+                    reject(err);
                 }
             })
         }

@@ -122,7 +122,13 @@ Page({
                 if (res) { 
                     this.updateLocation();
                 }
-            }) 
+            }).catch(err => {
+                wx.showToast({
+                  title: '获取位置失败',
+                  icon: 'error',
+                  duration: 3000
+                })
+            })
         } else {
             wx.switchTab({
               url: '/pages/park/index',
@@ -184,30 +190,45 @@ Page({
                         radius: CONSTANT.DEFAULT_RADIUS 
                     }
                 }
+            }).catch(err => {
+                wx.showToast({
+                  title: '重新刷新获取位置微信',
+                  icon: 'none',
+                  duration: 3000
+                })
             })
         }
-        parkApi.nearbyStore(currentLocation).then(res => {
-            const { data } = res;
-            if (data.code === CONSTANT.REQUEST_SUCCESS) {
-                if (data.data) {
-                    const park = data.data[0];
-                    let nearByPark = {
-                        id: park.id,
-                        name: '数停车' + ' (' + park.projectName + ')',
-                        address:park.addressSelect.split('-')[park.addressSelect.split('-').length - 1],
-                        location: park.location,
-                        phone: park.helpLine,
-                        openTime: park.openTime,
-                        status: park.status ? 'OPENING' : 'CLOSED',
-                        distance: park.value / 1000 + 'km',
-                        perCharge: ''
+        // 拿到定位获取最近场库,如果未拿到定位信息,则提示错误
+        if (currentLocation) {
+            parkApi.nearbyStore(currentLocation).then(res => {
+                const { data } = res;
+                if (data.code === CONSTANT.REQUEST_SUCCESS) {
+                    if (data.data) {
+                        const park = data.data[0];
+                        let nearByPark = {
+                            id: park.id,
+                            name: '数停车' + ' (' + park.projectName + ')',
+                            address:park.addressSelect.split('-')[park.addressSelect.split('-').length - 1],
+                            location: park.location,
+                            phone: park.helpLine,
+                            openTime: park.openTime,
+                            status: park.status ? 'OPENING' : 'CLOSED',
+                            distance: park.value / 1000 + 'km',
+                            perCharge: ''
+                        }
+                        this.setData({
+                            nearByPark
+                        })
                     }
-                    this.setData({
-                        nearByPark
-                    })
                 }
-            }
-        })
+            })
+        } else {
+            wx.showToast({
+              title: '获取位置失败',
+              icon: 'error',
+              duration: 3000
+            })
+        }
     },
 
     /**

@@ -370,6 +370,7 @@ Page({
         if (!this.mapContext) {
             wx.createSelectorQuery().select('#park-map').context((res) => {
                 this.mapContext = res.context;
+                this.goToCurrentLocation();
             }).exec();
         }
     },
