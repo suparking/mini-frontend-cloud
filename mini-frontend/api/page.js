@@ -6,7 +6,7 @@ const detail = code => {
         if (code === 'privacy') {
             res = {
                 code: code,
-                content: `<h1> 隐私政策页面 </h1>`,
+                content: `<h1> 免责声明页面 </h1>`,
                 createTime: "2022-05-08 10:00:00",
                 title: '隐私政策',
                 updateTime: '',
@@ -15,7 +15,7 @@ const detail = code => {
         } else if(code === 'protocol') {
             res = {
                 code: code,
-                content: `<h1> 用户协议页面 </h1>`,
+                content: `<h1> 用户协议/隐私政策页面 </h1>`,
                 createTime: "2022-05-08 10:00:00",
                 title: '用户协议',
                 updateTime: '',

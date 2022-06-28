@@ -50,7 +50,6 @@ Page({
             var { code } = this.data;
             const phoneCode = e.detail.code;
             loginApi.register({ code, phoneCode: phoneCode }).then(res => {
-                console.log(res)
                 if (res.statusCode === CONSTANT.REQUEST_SUCCESS && res.data.code === CONSTANT.REQUEST_SUCCESS && res.data.data !== null) {
                     const { data } = res.data;
                     var user = {

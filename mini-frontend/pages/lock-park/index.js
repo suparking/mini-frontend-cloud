@@ -6,6 +6,7 @@ Page({
      */
     data: {
         isShowKeyboard: true, // 是否显示车牌
+        number: 3,
         plate: [],
         current: 0,
         parkStatus: false // 0 扫码停车  1 输入停车

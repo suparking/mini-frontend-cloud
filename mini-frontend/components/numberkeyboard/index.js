@@ -7,7 +7,8 @@ Component({
     properties: {
         plate: Array, // 车位号
         showPlateKeyboard: Boolean, // 是否展示车牌,
-        current: Number  // 当前输入车位第几位
+        current: Number,  // 当前输入车位第几位
+        number: Number // 支持输入最多几位数
     },
 
     /**
@@ -50,7 +51,7 @@ Component({
          */
         onClickKey(e) {
             let key = e.currentTarget.dataset.key;
-            if (this.data.current >= 8) {
+            if (this.data.current >= this.data.number) {
                 return
             }
             // this.data.plate.push(key);

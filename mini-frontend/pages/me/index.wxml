@@ -70,7 +70,7 @@
         <view class="item me-person" bindtap="gotoCustomPage" data-code="privacy">
             <view class="content">
                 <image class="icon" src="../../assets/images/me-privacy.png"></image>
-                <view class="label">隐私政策</view>
+                <view class="label">免责声明</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>

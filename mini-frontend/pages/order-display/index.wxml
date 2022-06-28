@@ -1,45 +1,53 @@
-<!--pages/park-pay/index.wxml-->
-<import src="../../template/input-parkpay-template/input-parkpay-template.wxml"></import>
+<!--pages/order-display/index.wxml-->
 <view class="page">
     <view class="content-area">
-        <view class="name">{{ parkInfo.parkName }}</view>
-        <view class="open-time">{{ parkInfo.openTime }}</view>
-    </view>
-    <view class="container">
-        <view class="park-area">
-            <view class="charge-area">
-                <view class="free">
-                    <text style="color: #ff6729">{{ parkInfo.freeMinutes }}</text>内免费
-                </view>
-                <view class="top-charge">
-                    <text style="color: #ff6729">{{ parkInfo.perCharge }}</text>元/1天
-                </view>
-            </view>
-            <view class="charge-detail" bindtap="watchCharge">计费规则查看</view>
-        </view>
-        <view class="input-park-no">
-            <view class="content">请输入车位号(例如: 2204100005)</view>
-            <view class="park-no-area">
-                <template is="inputField" data="{{number, plate, current}}"></template>
-            </view>
+        <view class="title-area">
+            <view class="name">{{ parkInfo.parkName }}</view>
+            <view class="open-time">{{ parkInfo.openTime }}</view>
         </view>
         <view class="openLockHelp" bindtap="displayHelpModal">
             <image class="icon" src="../../assets/images/me-help.png"/>
             <view class="content">开锁失败帮助</view>
         </view>
     </view>
-
-    <view class="action-area" style="height: calc(100vh - 575rpx);">
-        <view class="tips-area">
-            <view class="info">温馨提示:</view>
-            <view class="info">1.请确认落锁成功后驶离或驶入,否则后果自负.</view>
-            <view class="info">2.停车费用只作为车位租赁消费,不作为车辆保管费用,请自行保管车辆以及贵重物品.</view>
-            <view class="info-area">
-                <view class="info-tips-one">3.点击开锁即表示同意</view>
-                <view class="info-tips-two" bindtap="goToProtocol">《用户服务协议》</view>
-                <view class="info-tips-two" bindtap="goToPrivacy">《免责声明》</view>
+    <view class="container">
+        <view class="order-detail-area">
+            <view class="order-detail-content-area">
+                <view class="title">车位编号</view>
+                <view class="content">2204100005</view>
+            </view>
+            <view class="order-detail-content-area">
+                <view class="title">设备编号</view>
+                <view class="content">2204100005</view>
+            </view>
+            <view class="order-detail-content-area">
+                <view class="title">临时订单号</view>
+                <view class="content">2204100005</view>
+            </view>
+            <view class="order-detail-content-area">
+                <view class="title">入库时间</view>
+                <view class="content">2204100005</view>
+            </view>
+            <view class="order-detail-content-area">
+                <view class="title">查询时间</view>
+                <view class="content">2204100005</view>
+            </view>
+            <view class="order-detail-content-area">
+                <view class="title">停车时长</view>
+                <view class="content">2204100005</view>
+            </view>
+            <view class="order-detail-content-area">
+                <view class="title">优惠券</view>
+                <view class="content">2204100005</view>
+            </view>
+            <view class="order-detail-content-area">
+                <view class="title">过期时间</view>
+                <view class="content">2204100005</view>
             </view>
         </view>
+    </view>
+
+    <view class="action-area" style="height: calc(100vh - 575rpx);">
         <view class="park-btn-area">
             <view class="park-btn" bindtap="parkQuery">{{ plate.length === 0 ? ( parkPayInputType ? '付费开锁' : '扫码缴费' ) : '付费开锁'}}</view>
         </view>

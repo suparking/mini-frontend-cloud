@@ -1,10 +1,6 @@
-// pages/park-pay/index.js
-import { userBehavior } from "../../behaviors/user-behavior";
-const CONSTANT = require('../../utils/constant');
-import parkPayApi from "../../api/park-pay";
-;
+// pages/order-display/index.js
 Page({
-    behaviors: [ userBehavior ],
+
     /**
      * 页面的初始数据
      */
@@ -32,7 +28,7 @@ Page({
             chargeContent: '暂无'
         }
     },
-    /**
+/**
      * 计费查询
      */
     parkQuery() {
@@ -188,23 +184,12 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        const q = decodeURIComponent(options.q);
-        if (q) {
-            const scancode_time = parseInt(options.scancode_time)
-            if (q.indexOf("http://signaling.suparking.cn/device/qrcode") >= 0) {
-                let deviceNo = q.split("no=")[1];
-                if (deviceNo) {
-                    this.setData({
-                        plate: deviceNo.split(''),
-                        scanCodeTime: scancode_time,
-                        current: deviceNo.length - 1
-                    })
-                    this.projectInfoByDeviceNo(deviceNo);
-                }
-            }
+        const { parkFeeQueryVO } = options;
+        if (parkFeeQueryVO) {
+            console.log('订单结算' + parkFeeQueryVO)
         }
     },
-    /**
+ /**
      * 根据设备编号获取项目信息. 
      * @param {设备编号} deviceNo 
      */

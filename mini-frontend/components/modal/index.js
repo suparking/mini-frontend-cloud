@@ -30,7 +30,6 @@ Component({
      * 组件的初始数据
      */
     data: {
-
     },
 
     /**
@@ -38,7 +37,8 @@ Component({
      */
     methods: {
         clickMask() {
-            this.setData({ show: false })
+            // 触发空白处是否关闭Modal.
+            // this.setData({ show: false })
         },
         cancel() {
             this.setData({ show: false });

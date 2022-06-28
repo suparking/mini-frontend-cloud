@@ -61,9 +61,11 @@ Page({
     },
     */
    onRegular: function(e) {
+       console.log(e)
        const { detail } = e
+       // 常去场库
        if (detail.name === 'regular') {
-
+           this.pullRegularPark(this.data.user.userId);
        } else if (detail.name === 'near') {
            this.onShow();
        }
@@ -88,8 +90,69 @@ Page({
         this.pullMarks();
     },
     // 获取常去场库
-    pullRegularPark() {
-        
+    pullRegularPark(userId) {
+        let params = {
+            userId: userId
+        }
+        parkApi.regularStore(params).then(res => {
+            const { data } = res;
+            if (data.code === CONSTANT.REQUEST_SUCCESS) {
+                const parks = data.data;
+                if (parks && parks.length > 0) {
+                    let parkList = [];
+                    let markers = [];
+                    parks.forEach((park, index) => {
+                        let tPark = {
+                            id: index,
+                            name: '数停车' + ' (' + park.projectName + ')',
+                            address:park.addressSelect.split('-')[park.addressSelect.split('-').length - 1],
+                            location: park.location,
+                            phone: park.helpLine,
+                            openTime: park.openTime.join(' ~ '),
+                            status: park.status === 'true' ? 'OPENING' : 'CLOSED',
+                            distance: '',
+                            perCharge: park.perCharge ? park.perCharge : '暂无',
+                            free: park.freePark ? park.freePark : 0
+                        }
+                        parkList.push(tPark);
+
+                        let icon = '../../assets/images/park-location-offline.png'
+                            if (park.status === 'true') {
+                                icon = '../../assets/images/park-location-online.png'
+                            }
+                            let tMarkPark = {
+                                id: index,
+                                title: '数停车' + ' (' + park.projectName + ')',
+                                latitude: park.location.latitude,
+                                longitude: park.location.longitude,
+                                iconPath: icon,
+                                width: '64rpx',
+                                height: '64rpx',
+                                status: park.status === 'true' ? 'OPENING' : 'CLOSED' ,
+                                callout: {
+                                    content: '数停车' + ' (' + park.projectName + ')', 
+                                    color: "#777777", 
+                                    fontSize: '20rpx', 
+                                    display: "ALWAYS", 
+                                    padding: "10rpx 30rpx",
+                                    borderRadius: '10rpx',
+                                    textAlign: "center" 
+                                }
+                            }
+                            markers.push(tMarkPark);
+                    })
+                    this.setData({
+                        parkList,
+                        markers
+                    })
+                    resolve(true);
+                } else {
+                    parkList = [];
+                    markers = [];
+                    reject(false)
+                }
+            }
+        })
     },
     // 获取地图marks.
     pullMarks() {
@@ -175,8 +238,8 @@ Page({
                                 openTime: park.openTime.join(' ~ '),
                                 status: park.status === 'true' ? 'OPENING' : 'CLOSED',
                                 distance: '',
-                                perCharge: '',
-                                free: ''
+                                perCharge: park.perCharge ? park.perCharge : '暂无',
+                                free: park.freePark ? park.freePark : 0
                             }
                             parkList.push(tPark);
                         })
@@ -212,7 +275,11 @@ Page({
      * @param {场库ID} data 
      */
     goToPark: (e) => {
-        console.log(e)
+        // wx.showToast({
+        //   title: '尽情期待',
+        //   duration: 3000
+        // })
+        // return;
         const parkId = e.currentTarget.dataset
         wx.navigateTo({
           url: `/pages/lock-park/index?parkId=${parkId}`,

@@ -1,13 +1,12 @@
 const CONSTANT = require('../utils/constant');
-const CONTEXTPATH = "/park-api";
-
-// 获取常去场库
-const regularStore = params => {
+// 获取用户信息
+const getProjectInfo = params => {
     return new Promise((resolve, reject) => {
         wx.request({
-            url: CONSTANT.MINI_BASEURL + CONTEXTPATH + "/regularLocations",
+            url: CONSTANT.BS_BASEURL + "/api/project/getParkInfo",
             data: {
-                userId: params.userId 
+                projectNo: params.projectNo,
+                channelId: params.channelId
             },
             method: 'POST',
             header: {
@@ -24,16 +23,14 @@ const regularStore = params => {
     })
 }
 
-// 获取附近场库
-const nearbyStore = location => {
+// 获取用户数据注册
+const getUserIphoneInfo = params => {
     return new Promise((resolve, reject) => {
         wx.request({
-            url: CONSTANT.MINI_BASEURL + CONTEXTPATH + "/nearLocation",
+            url: CONSTANT.BS_BASEURL + "/api/project/getUserIphone",
             data: {
-                latitude: location.latitude,
-                longitude: location.longitude,
-                number: location.number,
-                radius: location.radius
+                code: params.code,
+                phoneCode: params.phoneCode
             },
             method: 'POST',
             header: {
@@ -49,12 +46,20 @@ const nearbyStore = location => {
         })
     })
 }
-// 获取marks
-const allMarks = ()  => {
+
+// 注册数据
+const sendRegister = params => {
     return new Promise((resolve, reject) => {
         wx.request({
-            url: CONSTANT.MINI_BASEURL + CONTEXTPATH + "/allLocation",
-            method: 'GET',
+            url: CONSTANT.BS_BASEURL + "/api/project/sendParkInfo",
+            data: {
+                phone: params.phone,
+                channelId: params.channelId,
+                projectNo: params.projectNo,
+                openId: params.openId,
+                tmpId: params.tmpId
+            },
+            method: 'POST',
             header: {
                 'content-type': 'application/json'
             },
@@ -65,12 +70,11 @@ const allMarks = ()  => {
             fail: (err) => {
                 reject(err)
             }
-        })
+        }) 
     })
 }
-
 export default {
-    nearbyStore,
-    allMarks,
-    regularStore
+    getProjectInfo,
+    getUserIphoneInfo,
+    sendRegister
 }

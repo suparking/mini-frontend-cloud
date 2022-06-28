@@ -203,7 +203,7 @@ Page({
             parkApi.nearbyStore(currentLocation).then(res => {
                 const { data } = res;
                 if (data.code === CONSTANT.REQUEST_SUCCESS) {
-                    if (data.data) {
+                    if (data.data && data.data.length > 0) {
                         const park = data.data[0];
                         let nearByPark = {
                             id: park.id,

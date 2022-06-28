@@ -19,7 +19,9 @@
         "pages/park-discount/index",
         "pages/park-arrears/index",
         "pages/me-change-phone/index",
-        "pages/user-bind-plate/index"
+        "pages/user-bind-plate/index",
+        "pages/order-display/index",
+        "pages/user-register/index"
     ],
     "permission": {
         "scope.userLocation": {

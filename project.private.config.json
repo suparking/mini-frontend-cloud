@@ -70,6 +70,34 @@
                     "query": "parkId=%5Bobject%20Object%5D",
                     "launchMode": "default",
                     "scene": null
+                },
+                {
+                    "name": "停车缴费",
+                    "pathName": "pages/park-pay/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "订单结算",
+                    "pathName": "pages/order-display/index",
+                    "query": "parkFeeQueryVO=%5Bobject%20Object%5D",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "订单展示",
+                    "pathName": "pages/order-display/index",
+                    "query": "parkFeeQueryVO=%255Bobject%2520Object%255D",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "用户登记",
+                    "pathName": "pages/user-register/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
                 }
             ]
         }

@@ -1,0 +1,41 @@
+<!--pages/user-register/index.wxml-->
+<view class="page">
+    <view class="content-area">
+        <view class="title-area">
+            <view class="name">{{ parkName }}</view>
+        </view>
+    </view>
+
+    <view class="register-area">
+        <view class="container">
+            <view class="title">通道名称</view>
+            <view class="content">{{ channelName }}</view>
+        </view>
+        <view class="container">
+            <view class="title">登记时间</view>
+            <view class="content">{{ registerTime }}</view>
+        </view>
+        <view class="container">
+            <view class="title">登记状态</view>
+            <view class="content {{registerStatus ? 'active' : ''}}">{{ registerStatus ? '已完成' : '未完成'}}</view>
+        </view>
+        <view class="container">
+            <view class="title">登记车牌</view>
+            <view class="content">{{ plateNo }}</view>
+        </view>
+    </view>
+
+    <view class="adver-area">
+        <view class="container">
+            <view class="content">
+                {{ adverContent }}
+            </view>
+        </view>
+        <view class="sign-area">
+            {{ signName }}
+        </view>
+    </view>
+    <view class="action-area">
+        <button open-type="getPhoneNumber" style="width: 590rpx;" class="login-btn {{registerStatus ? 'active' : ''}}" disabled="{{ registerStatus }}"  bindgetphonenumber="register">{{ registerStatus ? '完成登记-正在开闸...' : '点击登记'}}</button>
+    </view>
+</view>

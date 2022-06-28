@@ -30,7 +30,7 @@
                     </view>
                     <view class="charge-area">
                         <image class="icon" src="../../assets/images/park-charge.png"></image>
-                        <view class="content">{{item.perCharge}}元/1小时</view>
+                        <view class="content">{{item.perCharge}}</view>
                     </view>
                 </view>
             </view>
@@ -42,6 +42,7 @@
                 </view>
             </view>
         </view>
+        <view wx:if="{{ !parkList || parkList.length === 0}}" class="end-area">没有更多了 ~</view>
     </scroll-view>
 
     <modalView show="{{ showModal }}" bindconfirm="modalConfirm" single="{{single}}" confirmName="选择其他场库" tipsContent="车位紧缺,暂停开放">

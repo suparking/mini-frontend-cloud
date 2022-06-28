@@ -1,0 +1,27 @@
+.inputPlate-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.active {
+    float: left;
+    width: 50rpx;
+    height: 75rpx;
+    text-align: center;
+    line-height: 75rpx;
+    margin-right: 6rpx;
+    margin-left: 6rpx;
+    align-self: center;
+    font-size: 50rpx;
+    color: #ff6729;
+}
+.border-color {
+    border: 1px solid #ccc;
+}
+
+.active-border-color {
+    border: 1px solid #ff6729;
+}

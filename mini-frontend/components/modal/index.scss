@@ -45,15 +45,18 @@
             margin-bottom: 10rpx;
             .cancel-btn, .confirm-btn {
                 display: flex;
+                justify-content: center;
                 padding: 0 30rpx;
                 align-items: center;
                 height: 80rpx;
+                width: 200rpx;
                 line-height: 100rpx;
                 text-align: center;
                 font-size: 30rpx;
+                font-weight: bold;
                 background-color: $primary-color;
                 color: #fff;
-                border-radius: 10rpx;
+                border-radius: 40rpx;
             }
             .cancen-btn {
                 border-right: 1rpx solid $gray-text-color;
