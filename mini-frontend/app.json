@@ -8,5 +8,6 @@
         "navigationBarTitleText": "数停车",
         "navigationBarTextStyle": "black"
     },
-    "lazyCodeLoading": "requiredComponents"
+    "lazyCodeLoading": "requiredComponents",
+    "sitemapLocation": "sitemap.json"
 }
