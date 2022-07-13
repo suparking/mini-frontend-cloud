@@ -21,7 +21,8 @@
         "pages/me-change-phone/index",
         "pages/user-bind-plate/index",
         "pages/order-display/index",
-        "pages/user-register/index"
+        "pages/user-register/index",
+        "pages/pay-success/index"
     ],
     "permission": {
         "scope.userLocation": {

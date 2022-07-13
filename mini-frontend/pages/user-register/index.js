@@ -53,14 +53,30 @@ Page({
                             })
                             wx.showModal({
                                 title: '提示',
-                                content: '获取成功确认登记',
+                                content: '获取成功,确认登记',
                                 success: (res) => {
                                   if (res.confirm) {
                                     let tmpIds = [];
+                                    if (this.data.tmpId === '-') {
+                                        wx.showToast({
+                                            title: '模板ID为空',
+                                            icon: 'error',
+                                            duration: 3000
+                                        })
+                                        return;
+                                    }
                                     tmpIds.push(this.data.tmpId);
                                     wx.requestSubscribeMessage({
                                         tmplIds: tmpIds,
                                         success: (res) => {
+                                            if (res[this.data.tmpId] === 'reject') {
+                                                wx.showToast({
+                                                    title: '您选择了拒绝,将无法进入小区',
+                                                    icon: 'none',
+                                                    duration: 3000
+                                                }) 
+                                                return;
+                                            }
                                             wx.showToast({
                                                 title: '感谢订阅停车服务',
                                                 icon: 'success',
@@ -82,7 +98,7 @@ Page({
                                                         plateNo: data.plateNo
                                                     })
                                                     wx.showToast({
-                                                      title: '注册成功',
+                                                      title: '登记成功,感谢配合',
                                                       icon: 'success',
                                                       duration: 3000
                                                     })
@@ -117,8 +133,8 @@ Page({
      * // 获取用户扫登记码拿到项目编号和通道编号.
      */
     onLoad(options) {
-        // const q = decodeURIComponent(options.q);
-        let q = "http://signaling.suparking.cn/device/qrcode?type=park&no=5ebb7a8136d1a00001928b5f&projectNo=010000";
+        const q = decodeURIComponent(options.q);
+        // let q = "http://signaling.suparking.cn/device/qrcode?type=park&no=5ebb7a8136d1a00001928b5f&projectNo=010000";
         if (q) {
             const scancode_time = parseInt(options.scancode_time);
             if (q.indexOf("http://signaling.suparking.cn/device/qrcode?type=park") >= 0) {
@@ -127,19 +143,17 @@ Page({
                 for (let i = 1; i < dataList.length; i++) {
                     params.push(dataList[i].split("=")[1]);
                 }
-                // let data = {
-                //     channelId: params[0],
-                //     projectNo: params[1]
-                // }
                 let data = {
-                    channelId: '620f1afae64ada00018cb05a',
-                    projectNo: '010000'
+                    channelId: params[0],
+                    projectNo: params[1]
                 }
+
                 this.setData({
                     projectNo: data.projectNo,
                     channelId: data.channelId
                 })
                 userRegisterApi.getProjectInfo(data).then(res => {
+                    console.log(res)
                     const { data }= res;
                     if (data.code === CONSTANT.BS_REQUEST_SUCCESS) {
                         this.setData({

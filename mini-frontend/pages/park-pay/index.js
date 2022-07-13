@@ -23,6 +23,9 @@ Page({
         single: true,
         phone: "400-021-1990",
 
+        // 计费规则查看custom model
+        chargeShowModal: false,
+
         // 查询费用前的场库开放时间默认显示
         parkInfo: {
             parkName: "停车场库名称",
@@ -99,6 +102,13 @@ Page({
         }
         
         const userStore = wx.getStorageSync('user');
+        if (!userStore) {
+            wx.showToast({
+              title: '用户信息有误',
+              icon: 'none'
+            })
+            return;
+        }
         let parkQueryDTO = {
             deviceNo: deviceNo,
             phone: userStore.phoneNumber,
@@ -109,16 +119,16 @@ Page({
         parkPayApi.scanCodeQueryFee(parkQueryDTO).then(res => {
             const { data } = res;
             if (data.code === CONSTANT.REQUEST_SUCCESS) {
-                let parkFeeQueryVO = data.data
-                console.log('订单展示:' + parkFeeQueryVO)
-
+                // 将场库名称,开放时间,具体的订单信息发送到订单展示页面.
+                let { parkInfo } = this.data;
+                let orderDisplay = {
+                    parkName: parkInfo.parkName,
+                    openTime: parkInfo.openTime,
+                    parkFeeQueryVO: data.data
+                }
                 // 拿着查询到的数据跳转到,支付前查看页面
-                wx.showToast({
-                  title: `查询费用￥${parkFeeQueryVO.dueAmount / 100}`,
-                  duration: 3000
-                })
-                if (parkFeeQueryVO) {
-                    let url = `/pages/order-display/index?parkFeeQueryVO=${parkFeeQueryVO}`;
+                if (orderDisplay) {
+                    let url = `/pages/order-display/index?orderDisplay=${JSON.stringify(orderDisplay)}`;
                     wx.navigateTo({
                         url
                     })
@@ -126,12 +136,13 @@ Page({
 
             } else {
                 wx.showToast({
-                    title: `失败 ${data.code}`,
+                    title: `${data.message}`,
                     icon: 'error',
                     duration: 3000
                 })
             } 
         }).catch(err => {
+            console.log(err)
             wx.showToast({
                 title: '查询费用失败',
                 icon: 'error',
@@ -141,7 +152,9 @@ Page({
     },
     // 查看计费规则简单描述
     watchCharge() {
-
+        this.setData({
+            chargeShowModal: true
+        })
     },
       /**
      * 拨打客服电话

@@ -13,48 +13,63 @@
     <view class="container">
         <view class="order-detail-area">
             <view class="order-detail-content-area">
-                <view class="title">车位编号</view>
-                <view class="content">2204100005</view>
+                <view class="title">车位信息</view>
+                <view class="content">{{ parkFeeQueryVO.parkName }}/{{ parkFeeQueryVO.parkNo }}</view>
             </view>
             <view class="order-detail-content-area">
                 <view class="title">设备编号</view>
-                <view class="content">2204100005</view>
+                <view class="content">{{ parkFeeQueryVO.deviceNo }}</view>
             </view>
             <view class="order-detail-content-area">
                 <view class="title">临时订单号</view>
-                <view class="content">2204100005</view>
+                <view class="content">{{ parkFeeQueryVO.tmpOrderNo }}</view>
             </view>
             <view class="order-detail-content-area">
                 <view class="title">入库时间</view>
-                <view class="content">2204100005</view>
+                <view class="content">{{ parkFeeQueryVO.beginTime }}</view>
             </view>
             <view class="order-detail-content-area">
                 <view class="title">查询时间</view>
-                <view class="content">2204100005</view>
+                <view class="content">{{ parkFeeQueryVO.endTime }}</view>
             </view>
             <view class="order-detail-content-area">
                 <view class="title">停车时长</view>
-                <view class="content">2204100005</view>
+                <view class="content">{{ parkFeeQueryVO.parkingMinutes }}</view>
             </view>
             <view class="order-detail-content-area">
-                <view class="title">优惠券</view>
-                <view class="content">2204100005</view>
+              <view class="title">停车劵</view>
+                <picker bindchange="bindPickerChange" value="{{index}}" range="{{parkFeeQueryVO.discountInfoList}}" disabled="{{parkFeeQueryVO.totalAmount > 0 ? false : true}}">
+                  <view class="content-icon">
+                    <view class="title">请选择</view>
+                    <image class="icon" src="../../assets/images/me-right.png"></image> 
+                  </view>
+                </picker>
             </view>
             <view class="order-detail-content-area">
                 <view class="title">过期时间</view>
-                <view class="content">2204100005</view>
+                <view class="content">{{ parkFeeQueryVO.expireTime}} </view>
             </view>
         </view>
     </view>
-
-    <view class="action-area" style="height: calc(100vh - 575rpx);">
-        <view class="park-btn-area">
-            <view class="park-btn" bindtap="parkQuery">{{ plate.length === 0 ? ( parkPayInputType ? '付费开锁' : '扫码缴费' ) : '付费开锁'}}</view>
+    <view class="content-area">
+      <view class="scan-discount" bindtap="scanQrcode">
+        <image class="icon" src="../../assets/images/scan.png" />
+        <view class="content">扫优惠券</view>
+      </view>
+        <view class="pay-amount-area">
+            <view class="static-content">合计</view>
+            <view class="pay">￥{{ parkFeeQueryVO.totalAmount / 100 }}</view>
         </view>
     </view>
-    <!-- 键盘 -->
-    <numberKeyboard showPlateKeyboard="{{ isShowKeyboard }}" plate="{{plate}}" current="{{current}}" number="{{ number }}" bind:plateKeyboardAddChange="onPlateKeyboardValueAddChange" bind:plateKeyboardDeleteChange="onPlateKeyboardValueDeleteChange"></numberKeyboard>
-
+    <view class="pay-content-area">
+        <view class="pay-desc-area">
+            <view class="static-content">实付:</view>
+            <view class="pay"><text class="ch">￥</text>{{ parkFeeQueryVO.dueAmount / 100 }}</view>
+        </view>
+        <view class="pay-btn-area " style="background-color: {{ btnPayStatus ? '#777777' : '#ff6729' }};">
+            <view class="payBtn" bindtap="toPay">{{ btnPayStatus ? '支付中...' : '确认支付'}}</view>
+        </view>
+    </view>
     <modalView show="{{ showModal }}" bindconfirm="modalConfirm" single="{{single}}" confirmName="我知道了" tipsContent="">
         <view class="modal-content">
             <scroll-view scroll-y class="main-content">

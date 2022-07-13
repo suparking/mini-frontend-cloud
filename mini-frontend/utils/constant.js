@@ -6,7 +6,7 @@ const REQUEST_SUCCESS = 200;
 const BS_REQUEST_SUCCESS = "00000";
 const DEFAULT_RADIUS = 5000;
 const SECRET = "9fdfff5ec6ac41c1a83269241e09f4ce";
-const BS_BASEURL = "http://192.168.1.133:10088/spms"
+const BS_BASEURL = "https://bs129.suparking.cn/spms"
 
 module.exports = {
     tencentAK: tencentAK,
