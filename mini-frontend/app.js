@@ -23,24 +23,6 @@ App({
   },
   // 获取用户位置信息
   loadCurrentLocation() {
-      return new Promise((resolve, reject) => {
-        const locationInfo = wx.getStorageSync('location');
-        if (!locationInfo)  {
-          wx.getLocation({
-              type: 'gcj02',
-              success: (res) => {
-                  const longitude = res.longitude;
-                  const latitude = res.latitude;
-                  console.log(longitude, latitude)
-                  wx.setStorageSync('location', { longitude, latitude });
-                  resolve({longitude, latitude});
-                },
-                fail: (err) => {
-                    reject(err);
-                }
-            })
-        }
-    }) 
  },
 
  /**

@@ -12,10 +12,10 @@ Page({
         channelName: "通道名称",
         registerTime: "-",
         registerStatus: false,
-        adverContent: '为了创造良好的停车体验,请社会车辆入场前微信扫码登记,谢谢配合!',
-        signName: '古荡街道宣',
+        adverContent: '-',
+        signName: '-',
         registerStatus: false,
-        tmpId: 'cTgz9-MoHdt5w_qO1RU37V0LXAioao66lK-1JdqAAdA',
+        tmpId: '-',
         userInfo: {
             phone: '',
             openId: ''
@@ -51,77 +51,101 @@ Page({
                             this.setData({
                                 userInfo
                             })
-                            wx.showModal({
-                                title: '提示',
-                                content: '获取成功,确认登记',
-                                success: (res) => {
-                                  if (res.confirm) {
-                                    let tmpIds = [];
-                                    if (this.data.tmpId === '-') {
-                                        wx.showToast({
-                                            title: '模板ID为空',
-                                            icon: 'error',
-                                            duration: 3000
-                                        })
-                                        return;
-                                    }
-                                    tmpIds.push(this.data.tmpId);
-                                    wx.requestSubscribeMessage({
-                                        tmplIds: tmpIds,
-                                        success: (res) => {
-                                            if (res[this.data.tmpId] === 'reject') {
+                            let { tmpId } = this.data;
+                            console.log(tmpId)
+                            if (tmpId && tmpId !== '-') {
+                                wx.showModal({
+                                    title: '提示',
+                                    content: '获取成功,确认登记',
+                                    success: (res) => {
+                                      if (res.confirm) {
+                                        let tmpIds = [];
+                                        tmpIds.push(tmpId);
+                                        wx.requestSubscribeMessage({
+                                            tmplIds: tmpIds,
+                                            success: (res) => {
+                                                if (res[this.data.tmpId] === 'reject') {
+                                                    wx.showToast({
+                                                        title: '您选择了拒绝,将无法进入小区',
+                                                        icon: 'none',
+                                                        duration: 3000
+                                                    }) 
+                                                    return;
+                                                }
+                                                let sendRegister = {
+                                                    phone: this.data.userInfo.phone,
+                                                    openId: this.data.userInfo.openId,
+                                                    channelId: this.data.channelId,
+                                                    projectNo: this.data.projectNo,
+                                                    tmpId: this.data.tmpId
+                                                }
+                                                userRegisterApi.sendRegister(sendRegister).then((res) => {
+                                                    const { data } = res; 
+                                                    if (data.code === CONSTANT.BS_REQUEST_SUCCESS) {
+                                                        this.setData({
+                                                            registerTime: data.registerTime,
+                                                            registerStatus: data.registerStatus,
+                                                            plateNo: data.plateNo
+                                                        })
+                                                        wx.showToast({
+                                                          title: '登记成功,感谢配合',
+                                                          icon: 'success',
+                                                          duration: 3000
+                                                        })
+                                                    } else {
+                                                        wx.showToast({
+                                                            title: `登记异常: ${data.code}`,
+                                                            duration: 3000
+                                                        }) 
+                                                    }
+                                                })
+                                            },
+                                            fail: (err) => {
                                                 wx.showToast({
                                                     title: '您选择了拒绝,将无法进入小区',
                                                     icon: 'none',
                                                     duration: 3000
                                                 }) 
-                                                return;
                                             }
-                                            wx.showToast({
-                                                title: '感谢订阅停车服务',
-                                                icon: 'success',
-                                                duration: 3000
-                                            }) 
-                                            let sendRegister = {
-                                                phone: this.data.userInfo.phone,
-                                                openId: this.data.userInfo.openId,
-                                                channelId: this.data.channelId,
-                                                projectNo: this.data.projectNo,
-                                                tmpId: this.data.tmpId
-                                            }
-                                            userRegisterApi.sendRegister(sendRegister).then((res) => {
-                                                const { data } = res; 
-                                                if (data.code === CONSTANT.BS_REQUEST_SUCCESS) {
-                                                    this.setData({
-                                                        registerTime: data.registerTime,
-                                                        registerStatus: data.registerStatus,
-                                                        plateNo: data.plateNo
-                                                    })
-                                                    wx.showToast({
-                                                      title: '登记成功,感谢配合',
-                                                      icon: 'success',
-                                                      duration: 3000
-                                                    })
-                                                }
-                                            })
-                                        },
-                                        fail: (err) => {
-                                            wx.showToast({
-                                                title: '您选择了拒绝,将无法进入小区',
-                                                icon: 'none',
-                                                duration: 3000
-                                            }) 
-                                        }
-                                    })
-                                  } else if (res.cancel) {
-                                    wx.showToast({
-                                        title: '您选择了拒绝,将无法进入小区',
-                                        icon: 'none',
-                                        duration: 3000
-                                    }) 
-                                  }
+                                        })
+                                      } else if (res.cancel) {
+                                        wx.showToast({
+                                            title: '您选择了拒绝,将无法进入小区',
+                                            icon: 'none',
+                                            duration: 3000
+                                        }) 
+                                      }
+                                    }
+                                })
+                            } else {
+                                let sendRegister = {
+                                    phone: this.data.userInfo.phone,
+                                    openId: this.data.userInfo.openId,
+                                    channelId: this.data.channelId,
+                                    projectNo: this.data.projectNo,
+                                    tmpId: this.data.tmpId
                                 }
-                            })
+                                userRegisterApi.sendRegister(sendRegister).then((res) => {
+                                    const { data } = res; 
+                                    if (data.code === CONSTANT.BS_REQUEST_SUCCESS) {
+                                        this.setData({
+                                            registerTime: data.registerTime,
+                                            registerStatus: data.registerStatus,
+                                            plateNo: data.plateNo
+                                        })
+                                        wx.showToast({
+                                          title: '登记成功,感谢配合',
+                                          icon: 'success',
+                                          duration: 3000
+                                        })
+                                    } else {
+                                        wx.showToast({
+                                            title: `登记异常: ${data.code}`,
+                                            duration: 3000
+                                          }) 
+                                    }
+                                })
+                            }
                         }
                     })
                 }
@@ -134,7 +158,7 @@ Page({
      */
     onLoad(options) {
         const q = decodeURIComponent(options.q);
-        // let q = "http://signaling.suparking.cn/device/qrcode?type=park&no=5ebb7a8136d1a00001928b5f&projectNo=010000";
+        // let q = "http://signaling.suparking.cn/device/qrcode?type=park&no=620f1afae64ada00018cb05a&projectNo=010000";
         if (q) {
             const scancode_time = parseInt(options.scancode_time);
             if (q.indexOf("http://signaling.suparking.cn/device/qrcode?type=park") >= 0) {
@@ -153,7 +177,6 @@ Page({
                     channelId: data.channelId
                 })
                 userRegisterApi.getProjectInfo(data).then(res => {
-                    console.log(res)
                     const { data }= res;
                     if (data.code === CONSTANT.BS_REQUEST_SUCCESS) {
                         this.setData({

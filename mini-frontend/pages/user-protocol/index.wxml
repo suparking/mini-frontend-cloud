@@ -1,2 +1,0 @@
-<!--pages/protocol/index.wxml-->
-<rich-text nodes="{{ page.content }}"></rich-text>

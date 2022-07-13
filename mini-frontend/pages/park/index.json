@@ -1,7 +1,0 @@
-{
-    "usingComponents": {
-        "tabs": "../../components/tabs/index",
-        "modalView": "../../components/modal/index"
-    },
-    "navigationBarTitleText": "场库列表"
-}

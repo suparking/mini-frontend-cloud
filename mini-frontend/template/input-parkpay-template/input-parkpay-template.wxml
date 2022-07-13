@@ -1,9 +1,0 @@
-<!-- 输入框 -->
-<template name="inputField">
-    <view class='inputPlate-container'>
-        <block wx:for="{{number}}" wx:key="index">
-            <view
-                class="{{current === index ? 'active-border-color':'border-color'}} 'active'" catchtap='onFocusTap' data-item="{{ item }}">{{plate[index] ? plate[index] : ''}}</view>
-        </block>
-    </view>
-</template>

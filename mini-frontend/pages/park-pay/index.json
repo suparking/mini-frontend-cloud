@@ -1,7 +1,0 @@
-{
-    "usingComponents": {
-        "numberKeyboard": "../../components/numberkeyboard/index",
-        "modalView": "../../components/modal/index"
-    },
-    "navigationBarTitleText": "停车缴费"
-}

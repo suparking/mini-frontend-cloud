@@ -1,80 +1,12 @@
 {
     "pages": [
-        "pages/index/index",
-        "pages/me/index",
-        "pages/order/index",
-        "pages/park/index",
-        "pages/login/index",
-        "pages/user-privacy/index",
-        "pages/user-protocol/index",
-        "pages/user-car/index",
-        "pages/user-money/index",
-        "pages/user-invoice/index",
-        "pages/user-park/index",
-        "pages/lock-park/index",
-        "pages/web-view/index",
-        "pages/park-reverse/index",
-        "pages/park-pay/index",
-        "pages/park-vip/index",
-        "pages/park-discount/index",
-        "pages/park-arrears/index",
-        "pages/me-change-phone/index",
-        "pages/user-bind-plate/index",
-        "pages/order-display/index",
-        "pages/user-register/index",
-        "pages/pay-success/index"
+        "pages/user-register/index"
     ],
-    "permission": {
-        "scope.userLocation": {
-            "desc": "您的位置信息将用于【数停车】匹配最佳停车场库"
-        }
-    },
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#fff",
         "navigationBarTitleText": "数停车",
         "navigationBarTextStyle": "black"
     },
-    "tabBar": {
-        "color": "#777777",
-        "selectedColor": "#ff6729",
-        "list": [
-            {
-                "pagePath": "pages/index/index",
-                "text": "首页",
-                "iconPath": "./assets/images/home.png",
-                "selectedIconPath": "./assets/images/home-selected.png"
-            },
-            {
-                "pagePath": "pages/park/index",
-                "text": "停车",
-                "iconPath": "./assets/images/park.png",
-                "selectedIconPath": "./assets/images/park-selected.png"
-            },
-            {
-                "pagePath": "pages/order/index",
-                "text": "订单",
-                "iconPath": "./assets/images/order.png",
-                "selectedIconPath": "./assets/images/order-selected.png"
-            },
-            {
-                "pagePath": "pages/me/index",
-                "text": "我的",
-                "iconPath": "./assets/images/me.png",
-                "selectedIconPath": "./assets/images/me-selected.png"
-            }
-        ]
-    },
-    "style": "v2",
-    "sitemapLocation": "sitemap.json",
-    "plugins": {
-        "chooseLocation": {
-            "version": "1.0.9",
-            "provider": "wx76a9a06e5b4e693e"
-        },
-        "routePlan": {
-            "version": "1.0.19",
-            "provider": "wx50b5593e81dd937a"
-        }
-    }
+    "lazyCodeLoading": "requiredComponents"
 }

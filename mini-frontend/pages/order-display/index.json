@@ -1,7 +1,0 @@
-{
-    "usingComponents": {
-        "modalView": "../../components/modal/index"
-    },
-    "navigationBarTitleText": "订单结算",
-    "enablePullDownRefresh": true
-}
