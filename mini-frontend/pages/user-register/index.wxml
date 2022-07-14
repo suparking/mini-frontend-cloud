@@ -36,6 +36,6 @@
         </view>
     </view>
     <view class="action-area">
-        <button open-type="getPhoneNumber" style="width: 590rpx;" class="login-btn {{registerStatus ? 'active' : ''}}" disabled="{{ registerStatus }}"  bindgetphonenumber="register">{{ registerStatus ? '完成登记-正在开闸...' : '点击登记'}}</button>
+        <button open-type="getPhoneNumber" style="width: 590rpx;" class="login-btn {{btnStatus ? 'active' : ''}}" disabled="{{ btnStatus }}"  bindgetphonenumber="register">{{ btnStatus && registerStatus ? '完成登记-正在开闸...' : '点击登记'}}</button>
     </view>
 </view>
