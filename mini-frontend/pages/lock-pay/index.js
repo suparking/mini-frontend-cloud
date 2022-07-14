@@ -9,7 +9,7 @@ Page({
         number: 3,
         plate: [],
         current: 0,
-        parkStatus: false, // 0 扫码停车  1 输入停车
+        parkStatus: false, // 0 扫码停车  1 输入停车,
         // 查询费用前的场库开放时间默认显示
         parkInfo: {
             parkName: "停车场库名称",
@@ -21,12 +21,8 @@ Page({
         // 计费规则查看custom model
         chargeShowModal: false,
         single: true,
-    },
-    /**
-    * 未开放停车场库弹出modal 确定按钮回调 
-    * @param {*} e 
-    */
-    modalConfirm: (e) => {
+        // 记录当前页面查询的场库编号
+        projectNo: ''
     },
     // 查看计费规则简单描述
     watchCharge() {
@@ -35,24 +31,48 @@ Page({
         })
     },
     /**
+        * 未开放停车场库弹出modal 确定按钮回调 
+        * @param {*} e 
+        */
+    modalConfirm: (e) => {
+    },
+    /**
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        const q = decodeURIComponent(options.q);
+        if (q) {
+            const scancode_time = parseInt(options.scancode_time)
+            if (q.indexOf("http://signaling.suparking.cn/device/qrcode?type=pay") >= 0) {
+                let projectNo = q.split("no=")[1];
+                if (projectNo) {
+                    this.setData({
+                        projectNo
+                    })
+                    this.projectInfoByProjectNo();
+                }
+            }
+        }
     },
     /**
-     * 跳转到用户协议.
+     * 根据项目编号获取项目信息. 
      */
-    goToProtocol() {
-        wx.navigateTo({
-            url: '/pages/user-protocol/index?code=protocol'
-        })
-    },
-    /**
-     * 跳转到免责声明
-     */
-    goToPrivacy() {
-        wx.navigateTo({
-            url: '/pages/user-privacy/index?code=privacy'
+    projectInfoByProjectNo() {
+        let { projectNo } = this.data;
+        parkPayApi.projectInfoByProjectNo({projectNo: projectNo}).then(res => {
+            const { data } = res;
+            if (data.code === CONSTANT.REQUEST_SUCCESS) {
+                let parkInfo = data.data;
+                this.setData({
+                    parkInfo
+                })
+            }
+        }).catch(err => {
+            wx.showToast({
+              title: '查询信息有误',
+              icon: 'error',
+              duration: 3000
+            })
         })
     },
     /**
@@ -107,25 +127,30 @@ Page({
     /**
      * 停车,如果当前未输入车位号 支持 扫码停车,如果当前输入了编号,那么就是车位号停车
      */
-    park() {
-        if (this.data.plate.length > 0) {
+    toPay() {
+        let { plate } = this.data;
+        if (plate.length != 3) {
 
-        } else {
-            wx.scanCode({
-              onlyFromCamera: false,
-              success: res => {
-                  if (res.errMsg.indexOf("ok") > 0) {
-                      console.log(res.result)
-                      // 扫码成功之后,调用API 停车OK  之后 开始计时
-                      this.setData({
-                          parkStatus: true
-                      })
-                  } else {
-                      console.log(res)
-                  }
-              }
-            })
         }
+        if (this.data.plate.length > 0) {
+            let { projectNo } = this.data;
+        }
+    },
+    /**
+     * 跳转到用户协议.
+     */
+    goToProtocol() {
+        wx.navigateTo({
+            url: '/pages/user-protocol/index?code=protocol'
+        })
+    },
+    /**
+     * 跳转到免责声明
+     */
+    goToPrivacy() {
+        wx.navigateTo({
+            url: '/pages/user-privacy/index?code=privacy'
+        })
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

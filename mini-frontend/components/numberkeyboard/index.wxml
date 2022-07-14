@@ -32,13 +32,18 @@
 						<button class="key" catchtap="onClickKey" data-key="{{item}}">{{item}}</button>
 					</block>
 				</view>
-				<view class="keyboard-panel free-panel">
-					<block wx:for="{{keyNumber4}}" wx:key="index">
-						<button class="key" catchtap="onClickKey" data-key="{{item}}">{{item}}</button>
+				<view class="keyboard-panel">
+                    <view class="keyboard-sp-panel">
+                        <block wx:for="{{keyNumber5}}" wx:key="index">
+						    <button class="key" catchtap="onClickKey" data-key="{{item}}">{{item}}</button>
+					    </block>
+                    </view>
+                    <block wx:for="{{keyNumber4}}" wx:key="index">
+						    <button class="key" style="margin-left:10rpx" catchtap="onClickKey" data-key="{{item}}">{{item}}</button>
 					</block>
 					<button class="delete-key" catchtap="onClickDelete">
 						<image class='delete-image-icon' src='../../assets/images/delete_key_icon.png'></image>
-					</button>
+				    </button>
 				</view>
 			</view>
 		</view>

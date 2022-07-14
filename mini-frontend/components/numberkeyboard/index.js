@@ -19,7 +19,8 @@ Component({
 		keyNumber1: '123',
 		keyNumber2: '456',
 		keyNumber3: '789',
-		keyNumber4: '0',
+        keyNumber4: '0',
+        keyNumber5: 'SP'
     },
 
     /**

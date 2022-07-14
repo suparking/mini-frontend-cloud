@@ -1,6 +1,30 @@
 const CONSTANT = require('../utils/constant');
 const CONTEXTPATH = "/park-api";
 import signUtil from "../utils/signUtils";
+// 根据场库编号获取场库信息
+const projectInfoByProjectNo = params => {
+    return new Promise((resolve, reject) => {
+        wx.request({
+            url: CONSTANT.MINI_BASEURL + CONTEXTPATH + "/projectInfoByProjectNo",
+            method: 'POST',
+            header: {
+                'content-type': 'application/json',
+                'sign': signUtil.sign(params.projectNo)+''
+            },
+            data: {
+                projectNo:  params.projectNo
+            },
+            timeout: CONSTANT.REQUEST_TIMEOUT,
+            success: (res) => {
+                resolve(res)
+            },
+            fail: (err) => {
+                reject(err)
+            }
+        })
+    }) 
+}
+
 // 获取根据设备号获取场库信息
 const projectInfoByDeviceNo = params  => {
     return new Promise((resolve, reject) => {
@@ -142,6 +166,7 @@ const clearParkCache = params  => {
 }
 export default {
     projectInfoByDeviceNo,
+    projectInfoByProjectNo,
     scanCodeQueryFee,
     miniToPay,
     queryOrder,

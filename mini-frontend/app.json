@@ -22,7 +22,8 @@
         "pages/user-bind-plate/index",
         "pages/order-display/index",
         "pages/user-register/index",
-        "pages/pay-success/index"
+        "pages/pay-success/index",
+        "pages/lock-pay/index"
     ],
     "permission": {
         "scope.userLocation": {

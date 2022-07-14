@@ -44,6 +44,10 @@
 	justify-content: space-between;
     padding: 10rpx 10rpx;
 }
+.keyboard-sp-panel {
+    display: flex;
+    width: 32%;
+}
 
 .keyboard-panel .key,
 .keyboard-panel .delete-key {
@@ -57,7 +61,7 @@
 	background-color: #fff;
 	color: rgb(140, 142, 151);
 	font-size: 45rpx;
-	border: none;
+    border: none;
 }
 
 .keyboard-panel .delete-key {

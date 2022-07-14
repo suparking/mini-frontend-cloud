@@ -2,20 +2,20 @@
 <import src="../../template/input-number-template/input-number-template.wxml"></import>
 <view class="page">
     <view class="content-area">
-        <view class="name">杭州城发天地停车场</view>
-        <view class="open-time">00:00-23:59</view>
+        <view class="name"> {{ parkInfo.parkName }}</view>
+        <view class="open-time">{{ parkInfo.openTime }}</view>
     </view>
     <view class="container">
         <view class="park-area">
             <view class="charge-area">
                 <view class="free">
-                    <text style="color: #ff6729">15分钟</text>内免费
+                    <text style="color: #ff6729">{{ parkInfo.freeMinutes }}分钟</text>内免费
                 </view>
                 <view class="top-charge">
-                    <text style="color: #ff6729">20</text>元/1天
+                    <text style="color: #ff6729">{{ parkInfo.perCharge }}元</text>/1天
                 </view>
             </view>
-            <view class="charge-detail">计费规则查看</view>
+            <view class="charge-detail" bindtap="watchCharge">计费规则查看</view>
         </view>
         <view class="input-park-no">
             <view class="content">输入车位锁编号(例如: 001)</view>
@@ -30,6 +30,11 @@
             <view class="info">温馨提示:</view>
             <view class="info">1.常升型车位锁,需先支付一天的封顶金额方可停车;</view>
             <view class="info">2.停车费用只作为车位租赁消费,不作为车辆保管费用,请自行保管车辆以及贵重物品.</view>
+            <view class="info-area">
+                <view class="info-tips-one">3.点击开锁即表示同意</view>
+                <view class="info-tips-two" bindtap="goToProtocol">《用户服务协议》</view>
+                <view class="info-tips-two" bindtap="goToPrivacy">《免责声明》</view>
+            </view>
         </view>
         <view class="park-btn-area">
             <view class="park-btn" bindtap="park">{{ current === 0 ? ( parkStatus ? '正在计时...' : '扫码停车' ) : ( parkStatus ? '正在计时...' : '降锁停车')}}</view>
@@ -37,4 +42,16 @@
     </view>
     <!-- 键盘 -->
     <numberKeyboard showPlateKeyboard="{{ isShowKeyboard }}" plate="{{plate}}" current="{{current}}" number="{{ number }}" bind:plateKeyboardAddChange="onPlateKeyboardValueAddChange" bind:plateKeyboardDeleteChange="onPlateKeyboardValueDeleteChange"></numberKeyboard>
+
+    <!-- 计费规则查看描述 -->
+    <modalView show="{{ chargeShowModal }}" bindconfirm="modalConfirm" single="{{ single }}" confirmName="我知道了" tipsContent="">
+        <view class="modal-content">
+            <scroll-view scroll-y class="main-content">
+                <view class="title"> 计费规则描述 </view>
+                <view class="content-area">
+                    <view class="step-one"> {{parkInfo.chargeContent }}</view>
+                </view>
+            </scroll-view>
+        </view> 
+    </modalView>
 </view>

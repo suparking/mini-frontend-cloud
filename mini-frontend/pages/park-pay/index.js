@@ -204,7 +204,7 @@ Page({
         const q = decodeURIComponent(options.q);
         if (q) {
             const scancode_time = parseInt(options.scancode_time)
-            if (q.indexOf("http://signaling.suparking.cn/device/qrcode") >= 0) {
+            if (q.indexOf("http://signaling.suparking.cn/device/qrcode&type=lock") >= 0) {
                 let deviceNo = q.split("no=")[1];
                 if (deviceNo) {
                     this.setData({

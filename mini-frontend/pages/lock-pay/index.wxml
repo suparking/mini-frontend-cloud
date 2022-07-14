@@ -1,5 +1,5 @@
-<!--pages/park-pay/index.wxml-->
-<import src="../../template/input-parkpay-template/input-parkpay-template.wxml"></import>
+<!--pages/lock-park/index.wxml-->
+<import src="../../template/input-number-template/input-number-template.wxml"></import>
 <view class="page">
     <view class="content-area">
         <view class="name">{{ parkInfo.parkName }}</view>
@@ -18,17 +18,13 @@
             <view class="charge-detail" bindtap="watchCharge">计费规则查看</view>
         </view>
         <view class="input-park-no">
-            <view class="content">请输入车位号(例如: 2204100005)</view>
+            <view class="content">输入车位锁编号(例如: 001)</view>
             <view class="park-no-area">
-                <template is="inputField" data="{{number, plate, current}}"></template>
+                <template is="inputField" data="{{number, plate, current }}"></template>
             </view>
         </view>
-        <view class="openLockHelp" bindtap="displayHelpModal">
-            <image class="icon" src="../../assets/images/me-help.png"/>
-            <view class="content">开锁失败帮助</view>
-        </view>
     </view>
-
+    
     <view class="action-area" style="height: calc(100vh - 575rpx);">
         <view class="tips-area">
             <view class="info">温馨提示:</view>
@@ -41,31 +37,12 @@
             </view>
         </view>
         <view class="park-btn-area">
-            <view class="park-btn" bindtap="parkQuery">{{ plate.length === 0 ? ( parkPayInputType ? '付费开锁' : '扫码缴费' ) : '付费开锁'}}</view>
+            <view class="park-btn" bindtap="toPay">{{ current !== 2 ? '输入缴费' : '缴费降锁'}}</view>
         </view>
     </view>
     <!-- 键盘 -->
     <numberKeyboard showPlateKeyboard="{{ isShowKeyboard }}" plate="{{plate}}" current="{{current}}" number="{{ number }}" bind:plateKeyboardAddChange="onPlateKeyboardValueAddChange" bind:plateKeyboardDeleteChange="onPlateKeyboardValueDeleteChange"></numberKeyboard>
 
-    <!-- 开锁失败帮助提示 -->
-    <modalView show="{{ showModal }}" bindconfirm="modalConfirm" single="{{single}}" confirmName="我知道了" tipsContent="">
-        <view class="modal-content">
-            <scroll-view scroll-y class="main-content">
-                <view class="title"> 开锁失败帮助提示 </view>
-                <view class="content-area">
-                    <view class="step-one"> 1. 确认订单支付成功.</view>
-                    <view class="step-one"> 2. 请按<text class="huarry-btn-content">紧急按钮</text>开锁</view>
-                </view>
-                <image class="icon" src="../../assets/images/lock-help-pic.png"></image>
-                
-                <view class="phone-area">
-                    <view class="step-one">开锁仍然失败,请拨打地面二维码牌<text class="huarry-btn-content">紧急电话</text>,或者拨打客服电话</view>
-                    <view class="phone" bindtap="call" data-phone="{{ phone }}">{{ phone }}</view>
-                    </view>
-            </scroll-view>
-        </view>
-    </modalView>
-    
     <!-- 计费规则查看描述 -->
     <modalView show="{{ chargeShowModal }}" bindconfirm="modalConfirm" single="{{ single }}" confirmName="我知道了" tipsContent="">
         <view class="modal-content">
