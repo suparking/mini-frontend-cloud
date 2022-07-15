@@ -62,7 +62,6 @@ Page({
                                 userInfo
                             })
                             let { tmpId } = this.data;
-                            console.log(tmpId)
                             if (tmpId && tmpId !== '-') {
                                 wx.showModal({
                                     title: '提示',
@@ -190,11 +189,51 @@ Page({
         })
     },
     /**
+     * 比较两个版本. 
+     * @param {*} v1 
+     * @param {*} v2 
+     */
+    compareVersion(version1, version2) {
+        let v1 = version1.split('.');
+        let v2 = version2.split('.');
+        const len = Math.max(v1.length, v2.length);
+        while (v1.length < len) {
+            v1.push('0')
+        }
+        while (v2.length < len) {
+            v2.push('0')
+        }
+        for (let i = 0; i < len; i++) {
+            const num1 = parseInt(v1[i])
+            const num2 = parseInt(v2[i])
+        
+            if (num1 > num2) {
+              return 1
+            } else if (num1 < num2) {
+              return -1
+            }
+        }
+        return 0;
+    },
+    /**
      * 生命周期函数--监听页面加载
      * // 获取用户扫登记码拿到项目编号和通道编号.
      */
     onLoad(options) {
         this.resetValue()
+        let version = wx.getSystemInfoSync().SDKVersion;
+        if (this.compareVersion(version, '2.4.4') < 0) {
+            // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
+            wx.showModal({
+                title: '微信基础库版本低于2.4.4',
+                content: `当前微信版本 ${version} 过低，无法使用该功能，请升级到最新微信版本后重试。`
+              })
+              this.setData({
+                  btnStatus: true
+              })
+            return;
+        } 
+          
         const q = decodeURIComponent(options.q);
         // let q = "http://signaling.suparking.cn/device/qrcode?type=park&no=620f1afae64ada00018cb05a&projectNo=010000";
         if (q) {
