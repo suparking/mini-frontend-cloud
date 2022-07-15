@@ -2,6 +2,7 @@
 const CONSTANT = require('../../utils/constant');
 import userRegisterApi from "../../api/user-register"
 Page({
+
     /**
      * 页面的初始数据
      */
@@ -11,9 +12,9 @@ Page({
         channelName: "通道名称",
         registerTime: "-",
         registerStatus: false,
+        btnStatus: true,
         adverContent: '-',
         signName: '-',
-        registerStatus: false,
         tmpId: '-',
         userInfo: {
             phone: '',
@@ -25,6 +26,16 @@ Page({
     },
     // 点击获取手机号,授权登记
     register(e) {
+        let channelId = this.data.channelId;
+        let projectNo = this.data.projectNo;
+        if (!channelId || channelId.length !== 24 || !projectNo || projectNo.length !== 6) {
+            wx.showToast({
+                title: '未产生登记事件,无需扫码',
+                icon: 'none',
+                duration: 3000
+            }) 
+            return;
+        }
         const { errMsg } = e.detail
         if (errMsg.indexOf("fail") > 0) {
             wx.showToast({
@@ -84,7 +95,8 @@ Page({
                                                         this.setData({
                                                             registerTime: data.registerTime,
                                                             registerStatus: data.registerStatus,
-                                                            plateNo: data.plateNo
+                                                            plateNo: data.plateNo,
+                                                            btnStatus: true
                                                         })
                                                         wx.showToast({
                                                           title: '登记成功,感谢配合',
@@ -130,7 +142,8 @@ Page({
                                         this.setData({
                                             registerTime: data.registerTime,
                                             registerStatus: data.registerStatus,
-                                            plateNo: data.plateNo
+                                            plateNo: data.plateNo,
+                                            btnStatus: true,
                                         })
                                         wx.showToast({
                                           title: '登记成功,感谢配合',
@@ -147,15 +160,41 @@ Page({
                             }
                         }
                     })
-                }
+               },
+               fail: (err) => {
+                    wx.showToast({
+                        title: `${err.errMsg}`,
+                        duration: 3000
+                    }) 
+               }
             })
         }
+    },
+    resetValue() {
+    this.setData({
+            parkName: '停车场名称',
+            channelName: '通道名称',
+            registerTime: "-",
+            registerStatus: false,
+            btnStatus: true,
+            adverContent: '-',
+            signName: '-',
+            tmpId: '-',
+            userInfo: {
+                phone: '',
+                openId: ''
+            },
+            channelId: '',
+            projectNo: '',
+            plateNo: ''
+        })
     },
     /**
      * 生命周期函数--监听页面加载
      * // 获取用户扫登记码拿到项目编号和通道编号.
      */
     onLoad(options) {
+        this.resetValue()
         const q = decodeURIComponent(options.q);
         // let q = "http://signaling.suparking.cn/device/qrcode?type=park&no=620f1afae64ada00018cb05a&projectNo=010000";
         if (q) {
@@ -175,6 +214,7 @@ Page({
                     projectNo: data.projectNo,
                     channelId: data.channelId
                 })
+
                 userRegisterApi.getProjectInfo(data).then(res => {
                     const { data }= res;
                     if (data.code === CONSTANT.BS_REQUEST_SUCCESS) {
@@ -184,6 +224,10 @@ Page({
                             adverContent: data.adverContent ? data.adverContent : '-',
                             signName: data.signName ? data.signName : '-',
                             tmpId: data.tmpId ? data.tmpId : '-'
+                        })
+                        this.setData({
+                            registerStatus: false,
+                            btnStatus: false
                         })
 
                     } else {
@@ -224,7 +268,7 @@ Page({
      * 生命周期函数--监听页面隐藏
      */
     onHide() {
-
+        this.resetValue();
     },
 
     /**
@@ -252,6 +296,6 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage() {
-
+        this.resetValue();
     }
 })

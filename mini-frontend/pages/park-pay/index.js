@@ -2,7 +2,7 @@
 import { userBehavior } from "../../behaviors/user-behavior";
 const CONSTANT = require('../../utils/constant');
 import parkPayApi from "../../api/park-pay";
-;
+const app = getApp()
 Page({
     behaviors: [ userBehavior ],
     /**
@@ -35,6 +35,31 @@ Page({
             chargeContent: '暂无'
         }
     },
+    // 判断是否登录
+    isLogin() {
+        return new Promise((resolve, reject) => {
+            if (!app.isLogin()) {
+                app.checkUser().then(res => {
+                    wx.setStorageSync('user', res);
+                    this.updatePhoneNumber();
+                    this.updateUserId();
+                    this.updateAvatarUrl();
+                    resolve('success')
+                }).catch(reason => {
+                    wx.showToast({
+                      title: '获取用户失败,跳转到登录页',
+                      icon: 'none'
+                    });
+                    // 为了区分用户进入小程序入口,此处需要增加定制化参数
+                    wx.navigateTo({
+                        url: reason,
+                    })
+                })
+            } else {
+                resolve('success')
+            }
+        })
+    },
     /**
      * 计费查询
      */
@@ -50,6 +75,7 @@ Page({
                 return;
             }
         } else {
+            
             wx.scanCode({
                 onlyFromCamera: false,
                 success: res => {
@@ -100,55 +126,57 @@ Page({
                 }
             }) 
         }
-        
-        const userStore = wx.getStorageSync('user');
-        if (!userStore) {
-            wx.showToast({
-              title: '用户信息有误',
-              icon: 'none'
-            })
-            return;
-        }
-        let parkQueryDTO = {
-            deviceNo: deviceNo,
-            phone: userStore.phoneNumber,
-            miniOpenId: userStore.miniOpenId,
-            unionId: userStore.unionId,
-            userId: userStore.id
-        }
-        parkPayApi.scanCodeQueryFee(parkQueryDTO).then(res => {
-            const { data } = res;
-            if (data.code === CONSTANT.REQUEST_SUCCESS) {
-                // 将场库名称,开放时间,具体的订单信息发送到订单展示页面.
-                let { parkInfo } = this.data;
-                let orderDisplay = {
-                    parkName: parkInfo.parkName,
-                    openTime: parkInfo.openTime,
-                    parkFeeQueryVO: data.data
-                }
-                // 拿着查询到的数据跳转到,支付前查看页面
-                if (orderDisplay) {
-                    let url = `/pages/order-display/index?orderDisplay=${JSON.stringify(orderDisplay)}`;
-                    wx.navigateTo({
-                        url
-                    })
-                }
-
-            } else {
+        // 检查登录状态,如果未登录,则查询后台数据,拿到下单必要数据,如果未登录,则要求用户进行一键登录
+        this.isLogin().then(res => {
+            const userStore = wx.getStorageSync('user');
+            if (!userStore) {
                 wx.showToast({
-                    title: `${data.message}`,
+                title: '用户信息有误',
+                icon: 'none'
+                })
+                return;
+            }
+            let parkQueryDTO = {
+                deviceNo: deviceNo,
+                phone: userStore.phoneNumber,
+                miniOpenId: userStore.miniOpenId,
+                unionId: userStore.unionId,
+                userId: userStore.id
+            }
+            parkPayApi.scanCodeQueryFee(parkQueryDTO).then(res => {
+                const { data } = res;
+                if (data.code === CONSTANT.REQUEST_SUCCESS) {
+                    // 将场库名称,开放时间,具体的订单信息发送到订单展示页面.
+                    let { parkInfo } = this.data;
+                    let orderDisplay = {
+                        parkName: parkInfo.parkName,
+                        openTime: parkInfo.openTime,
+                        parkFeeQueryVO: data.data
+                    }
+                    // 拿着查询到的数据跳转到,支付前查看页面
+                    if (orderDisplay) {
+                        let url = `/pages/order-display/index?orderDisplay=${JSON.stringify(orderDisplay)}`;
+                        wx.navigateTo({
+                            url
+                        })
+                    }
+
+                } else {
+                    wx.showToast({
+                        title: `${data.message}`,
+                        icon: 'error',
+                        duration: 3000
+                    })
+                } 
+            }).catch(err => {
+                console.log(err)
+                wx.showToast({
+                    title: '查询费用失败',
                     icon: 'error',
                     duration: 3000
                 })
-            } 
-        }).catch(err => {
-            console.log(err)
-            wx.showToast({
-                title: '查询费用失败',
-                icon: 'error',
-                duration: 3000
-              })
-        }) 
+            })
+        })
     },
     // 查看计费规则简单描述
     watchCharge() {
@@ -201,7 +229,8 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        const q = decodeURIComponent(options.q);
+        //const q = decodeURIComponent(options.q);
+        let q = "http://signaling.suparking.cn/device/qrcode&type=lock&no=2204100005";
         if (q) {
             const scancode_time = parseInt(options.scancode_time)
             if (q.indexOf("http://signaling.suparking.cn/device/qrcode&type=lock") >= 0) {

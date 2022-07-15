@@ -160,7 +160,7 @@ Page({
             const { data } = res;
             if (data.code === CONSTANT.REQUEST_SUCCESS) {
                 const parks = data.data;
-                if (parks.length > 0) {
+                if (parks && parks.length > 0) {
                     let markers = [];
                     parks.forEach((park, index) => {
                         let icon = '../../assets/images/park-location-offline.png'

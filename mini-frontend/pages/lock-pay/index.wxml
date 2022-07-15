@@ -18,7 +18,7 @@
             <view class="charge-detail" bindtap="watchCharge">计费规则查看</view>
         </view>
         <view class="input-park-no">
-            <view class="content">输入车位锁编号(例如: 001)</view>
+            <view class="content">输入车位编号(例如: 001)</view>
             <view class="park-no-area">
                 <template is="inputField" data="{{number, plate, current }}"></template>
             </view>

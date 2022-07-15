@@ -1,6 +1,35 @@
 const CONSTANT = require('../utils/constant');
 const CONTEXTPATH = "/park-api";
 import signUtil from "../utils/signUtils";
+
+/**
+ * 根据项目编号,车位号获取设备编号. 
+ * @param {项目编号,车位号} params 
+ */
+const getDeviceNo = params => {
+    return new Promise((resolve, reject) => {
+        wx.request({
+            url: CONSTANT.MINI_BASEURL + CONTEXTPATH + "/getDeviceNo",
+            method: 'POST',
+            header: {
+                'content-type': 'application/json',
+                'sign': signUtil.sign(params.parkNo)+''
+            },
+            data: {
+                projectNo:  params.projectNo,
+                parkNo: params.parkNo
+            },
+            timeout: CONSTANT.REQUEST_TIMEOUT,
+            success: (res) => {
+                resolve(res)
+            },
+            fail: (err) => {
+                reject(err)
+            }
+        })
+    })  
+}
+
 // 根据场库编号获取场库信息
 const projectInfoByProjectNo = params => {
     return new Promise((resolve, reject) => {
@@ -164,6 +193,28 @@ const clearParkCache = params  => {
         })
     })
 }
+
+// 清除Redis中优惠券
+const clearDiscountCache = params  => {
+  return new Promise((resolve, reject) => {
+      wx.request({
+          url: CONSTANT.MINI_BASEURL + CONTEXTPATH + "/clearDiscountCache",
+          method: 'POST',
+          header: {
+              'content-type': 'application/json',
+              'sign': signUtil.sign(params.discountNo)+''
+          },
+          data: params,
+          timeout: CONSTANT.REQUEST_TIMEOUT,
+          success: (res) => {
+              resolve(res)
+          },
+          fail: (err) => {
+              reject(err)
+          }
+      })
+  })
+}
 export default {
     projectInfoByDeviceNo,
     projectInfoByProjectNo,
@@ -171,5 +222,7 @@ export default {
     miniToPay,
     queryOrder,
     closeOrder,
-    clearParkCache
+    clearParkCache,
+    getDeviceNo,
+    clearDiscountCache
 }

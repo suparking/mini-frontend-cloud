@@ -27,6 +27,10 @@ Page({
             parkName: "停车场库名称",
             openTime: '开放时间',
         },
+        // 前置端显示优惠券列表
+        couponNameList: ['请选择'],
+        scanDiscount: null,
+        index: 0,
         // 订单显示对象字段
         parkFeeQueryVO: {
             dueAmount: '',
@@ -224,6 +228,49 @@ Page({
 
     },
     /**
+     * 释放优惠券.
+     * @param {优惠券编号} discountNo 
+     */
+    removeDiscountRedis(discountNo) {
+      parkPayApi.clearDiscountCache({discountNo: discountNo}).then(res => {
+        wx.showToast({
+          title: '优惠券释放成功',
+          icon: 'none',
+          duration: 3000
+        })
+      }).catch(err => {
+        wx.showToast({
+          title: `优惠券释放失败 ${err}`,
+          icon: 'none',
+          duration: 3000
+        })
+      })
+    },
+    /**
+     * 选择优惠券查询 
+     * @param {} e 
+     */
+    bindPickerChange(e) {
+        // 选择完优惠券之后再次计费
+        
+        let { scanDiscount } = this.data;
+        if ( scanDiscount !== null) {
+          let discountNo = scanDiscount.discountNo;
+          // 发送请求,删除后台redis中对应的数据
+          this.removeDiscountRedis(discountNo);
+        }
+        // 赋值
+        this.setData({
+          index: e.detail.value,
+          scanDiscount: null
+        })
+        // 提示正在重新计费中.
+        wx.showLoading({
+          title: '重新计费中,请稍等...',
+          mask: true
+        })
+    },
+    /**
      * 计费查询
      */
     parkQuery() {
@@ -302,10 +349,6 @@ Page({
             if (data.code === CONSTANT.REQUEST_SUCCESS) {
                 let parkFeeQueryVO = data.data
                 // 拿着查询到的数据跳转到,支付前查看页面
-                wx.showToast({
-                  title: `查询费用￥${parkFeeQueryVO.dueAmount / 100}`,
-                  duration: 3000
-                })
                 if (parkFeeQueryVO) {
                     let url = `/pages/order-display/index?parkFeeQueryVO=${parkFeeQueryVO}`;
                     wx.navigateTo({
@@ -375,6 +418,7 @@ Page({
     onLoad(options) {
         const { orderDisplay } = options;
         if (orderDisplay) {
+            console.log(orderDisplay)
             let orderDisplayObj = JSON.parse(orderDisplay);
             let parkInfo = {};
             parkInfo.parkName = orderDisplayObj.parkName;
@@ -386,6 +430,29 @@ Page({
             this.setData({
                 orderDisplayTime: new Date().getTime() / 1000
             })
+            let { discountInfoList }  = this.data.parkFeeQueryVO;
+            let { couponNameList } = this.data;
+            // 根据优惠券列表把名称读取出来
+            for (let i = 0 ; i < discountInfoList.length ; i++) {
+                let couponName = '';
+                let type = discountInfoList[i].valueType;
+                let value = discountInfoList[i].value;
+                if (type === 'AMOUNT') {
+                    couponName = '现金券:' + value / 100 + '元';
+                } else if (type === 'MINUTE') {
+                    couponName = '时长劵:' + value + '分钟';
+                } else if (type === 'RATE') {
+                    couponName = '折扣劵:' + value / 10 + '折';
+                } else if (type === 'FREE') {
+                    couponName = '全免劵';
+                }
+                couponNameList.push(couponName);
+            }
+            if(couponNameList.length > 0) {
+                this.setData({
+                    couponNameList
+                })
+            }
         }
     },
  /**
@@ -478,13 +545,15 @@ Page({
      * 生命周期函数--监听页面隐藏
      */
     onHide() {
-
+        this.clearCache();
+        wx.navigateBack({
+          delta: 0,
+        })
     },
-
     /**
-     * 生命周期函数--监听页面卸载
+     * 清除缓存.
      */
-    onUnload() {
+    clearCache() {
        let { parkFeeQueryVO }  = this.data;
        if (parkFeeQueryVO.parkingId && parkFeeQueryVO.userId) {
            let params = {
@@ -508,6 +577,12 @@ Page({
                 })
            })
        }
+    },
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload() {
+        this.clearCache();
     },
 
     /**

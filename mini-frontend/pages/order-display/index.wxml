@@ -38,9 +38,9 @@
             </view>
             <view class="order-detail-content-area">
               <view class="title">停车劵</view>
-                <picker bindchange="bindPickerChange" value="{{index}}" range="{{parkFeeQueryVO.discountInfoList}}" disabled="{{parkFeeQueryVO.totalAmount > 0 ? false : true}}">
+                <picker bindchange="bindPickerChange" value="{{index}}" range="{{couponNameList}}" disabled="{{parkFeeQueryVO.totalAmount > 0 ? false : true}}">
                   <view class="content-icon">
-                    <view class="title">请选择</view>
+                    <view class="title">{{ scanDiscount === null ? couponNameList[index] : scanDiscount.discountName}}</view>
                     <image class="icon" src="../../assets/images/me-right.png"></image> 
                   </view>
                 </picker>
