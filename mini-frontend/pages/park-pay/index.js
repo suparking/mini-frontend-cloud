@@ -75,8 +75,8 @@ Page({
                 return;
             }
         } else {
-            
             wx.scanCode({
+                scanType: ['qrCode'],
                 onlyFromCamera: false,
                 success: res => {
                     if (res.errMsg.indexOf("ok") > 0) {
@@ -169,7 +169,6 @@ Page({
                     })
                 } 
             }).catch(err => {
-                console.log(err)
                 wx.showToast({
                     title: '查询费用失败',
                     icon: 'error',

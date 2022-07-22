@@ -1,0 +1,49 @@
+<!--pages/pay-success/index.wxml-->
+<view class="page">
+  <view class="head">
+    <image class="icon-area" src="../../assets/images/pay-success.png" />
+    <view class="content">恭喜您已缴费成功!</view>
+  </view>
+
+  <view class="spliter"></view>
+
+  <view class="container">
+    <view class="order-detail-area">
+      <view class="order-detail-content-area">
+        <view class="title">车场名称</view>
+        <view class="content">{{ projectName }}</view>
+      </view>
+      <view class="order-detail-content-area">
+        <view class="title">合约名称</view>
+        <view class="content">{{ protocolName }}</view>
+      </view>
+      <view class="order-detail-content-area">
+        <view class="title">开始时间</view>
+        <view class="content">{{ beginDate }}</view>
+      </view>
+      <view class="order-detail-content-area">
+        <view class="title">结束时间</view>
+        <view class="content">{{ endDate }}</view>
+      </view>
+      <view class="order-detail-content-area">
+        <view class="title">购买数量</view>
+        <view class="content">{{ quantity }} 份</view>
+      </view>
+      <view class="order-detail-content-area">
+        <view class="title">缴费金额</view>
+        <view class="content">￥{{ dueAmount / 100 }}元</view>
+      </view>
+      <view class="order-detail-content-area">
+        <view class="title">流水号</view>
+        <view class="content">{{ orderNo }}</view>
+      </view>
+      <view class="order-detail-content-area">
+        <view class="title">用户编号</view>
+        <view class="content">{{ userId }}</view>
+      </view>
+    </view>
+  </view>
+  <view class="btn">
+    <button class="button" bindtap="handleClick">去开票</button>
+  </view>
+</view>

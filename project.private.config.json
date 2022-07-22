@@ -112,6 +112,34 @@
                     "query": "",
                     "launchMode": "default",
                     "scene": null
+                },
+                {
+                    "name": "我的卡包",
+                    "pathName": "pages/park-discount/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "月卡办理",
+                    "pathName": "pages/park-vip/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "月卡办理详情",
+                    "pathName": "pages/park-vip-detail/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "我的合约",
+                    "pathName": "pages/user-vip/index",
+                    "query": "code=vip",
+                    "launchMode": "default",
+                    "scene": null
                 }
             ]
         }

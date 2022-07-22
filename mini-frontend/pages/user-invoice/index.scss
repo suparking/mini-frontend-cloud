@@ -1,1 +1,79 @@
-/* pages/user-invoice/index.wxss */
+/* pages/user-money/index.wxss */
+@import "../../style/theme.scss";
+.page {
+  padding: 20rpx 30rpx;
+  box-sizing: border-box;
+  background-color: #f8f8f8;
+  height: 100vh;
+  .list-items {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 15rpx;
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 36rpx 30rpx;
+      .content {
+        display: flex;
+        align-items: center;
+        .icon {
+          width: 40rpx;
+          height: 40rpx;
+          margin-right: 25rpx;
+        }
+        .label {
+          font-size: 30rpx;
+          color: $gray-text-color;
+        }
+      }
+      .left-arraw {
+        width: 40rpx;
+        height: 40rpx;
+      }
+      &.me-car {
+        border-top-left-radius: 10rpx;
+        border-top-right-radius: 10rpx;
+      }
+      &.me-park {
+        border-bottom-left-radius: 10rpx;
+        border-bottom-right-radius: 10rpx;
+      }
+      &.me-person {
+        border-top-left-radius: 10rpx;
+        border-top-right-radius: 10rpx;
+      }
+
+      &.me-user {
+        border-bottom-left-radius: 10rpx;
+        border-bottom-right-radius: 10rpx;
+      }
+      &:active {
+        opacity: 0.8;
+      }
+    }
+  }
+  .version {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10rpx;
+    .value {
+      color: #b4b4b4;
+      font-size: 24rpx;
+    }
+  }
+  .logout-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 150rpx;
+    margin-bottom: 50rpx;
+    .value {
+      color: #b4b4b4;
+      font-size: 24rpx;
+    }
+  }
+}

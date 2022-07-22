@@ -1,2 +1,29 @@
-<!--pages/park-discount/index.wxml-->
-<text>优惠卡包l</text>
+<swiper class="swiper-container" indicator-dots="{{ false }}" bindchange="handleSwiper" current="{{ currentTab }}">
+    <swiper-item>
+        <scroll-view class="scroll-block" style="overflow: scroll;" scroll-y refresher-enabled refresher-background="#f8f8f8" refresher-triggered="{{ isRefresh }}" bindrefresherrefresh="refresherpulling" bindscrolltolower="handleTolower">
+            <view wx:for="{{ couponNameList }}" wx:key="index">
+                <view class="order-box {{ dict[item.valueType]}}" bindtap="toParkPay">
+                    <view class="left">
+                        <view class="header">
+                        <view class="info">{{ item.couponName }}</view>
+                        </view>
+                        <view class="container">
+                            <view class="info-area">
+                                <view class="info">{{ item.projectNos }}</view>
+                                <view class="info">有效期: {{ item.expireDate }}</view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="right">
+                        <view class="action-area">
+                                <view class="btn-area" >
+                                    <view class="info">{{item.quantity}}<text class="content">张</text></view>
+                                </view>
+                            </view>
+                    </view>
+                </view>
+            </view>
+            <view class="end-area">没有更多了</view>
+        </scroll-view>
+    </swiper-item>>
+</swiper>

@@ -1,13 +1,13 @@
 <!--pages/me/index.wxml-->
 <view class="page">
-<!-- 用户信息 -->
+    <!-- 用户信息 -->
     <view class="user-area">
         <view class="user-box">
             <image class="avatar" src="{{ user.avatarUrl ? user.avatarUrl : '../../assets/images/suparking.png' }}" bindtap="getUserProfile"></image>
             <view class="name">{{ user.desensitiveMobile ? user.desensitiveMobile : '登录获得更多权益' }}</view>
             <image wx:if="{{ user.isLogin}}" class="edit-icon" bindtap="onEditPhone" src="../../assets/images/me-edit.png"></image>
         </view>
-        <view wx:if="{{ user.isLogin }}" class="help-box" bindtap="call" data-phone="{{ phone }}" >
+        <view wx:if="{{ user.isLogin }}" class="help-box" bindtap="call" data-phone="{{ phone }}">
             <image class="icon" src="../../assets/images/me-help.png"></image>
             <view class="name">客服</view>
         </view>
@@ -17,14 +17,14 @@
     <view class="card-container">
         <view class="card">
             <view class="meta">
-                <view class="count">{{ !user.isLogin ? '**' : '54'}}</view>
+                <view class="count">{{ !user.isLogin ? '**' : deposit}}</view>
                 <view class="name">押金</view>
             </view>
             <image class="icon" src="../../assets/images/me-deposit.png"></image>
         </view>
-        <view class="card">
+        <view class="card" bindtap="discountTap">
             <view class="meta">
-                <view class="count">{{ !user.isLogin ? '**' : '54'}}</view>
+                <view class="count">{{ !user.isLogin ? '**' : discountInfoCount}}</view>
                 <view class="name">优惠券</view>
             </view>
             <image class="icon" src="../../assets/images/me-discount.png"></image>
@@ -32,11 +32,11 @@
     </view>
 
     <view class="list-items">
-        <!-- 我的车牌 -->
-        <view class="item me-car" bindtap="gotoCustomPage" data-code="car">
+        <!-- 我的合约 -->
+        <view class="item" bindtap="gotoCustomPage" data-code="vip">
             <view class="content">
-                <image class="icon" src="../../assets/images/me-car.png"></image>
-                <view class="label">我的车辆</view>
+                <image class="icon" src="../../assets/images/me-vip.png"></image>
+                <view class="label">我的合约</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>
@@ -45,6 +45,14 @@
             <view class="content">
                 <image class="icon" src="../../assets/images/me-invoice.png"></image>
                 <view class="label">电子发票</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+        <!-- 我的车牌 -->
+        <view class="item me-car" bindtap="gotoCustomPage" data-code="car">
+            <view class="content">
+                <image class="icon" src="../../assets/images/me-car.png"></image>
+                <view class="label">我的车辆</view>
             </view>
             <image class="left-arraw" src="../../assets/images/me-right.png"></image>
         </view>

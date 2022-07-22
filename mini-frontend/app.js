@@ -4,7 +4,8 @@ import loginApi from './api/login'
 import CONSTANT from './utils/constant'
 App({
   globalData: {
-      bottomSafeArea: 0
+      bottomSafeArea: 0,
+      mapSdk: null
   },
 
   onLaunch: function() {

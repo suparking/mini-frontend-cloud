@@ -1,1 +1,94 @@
-/* pages/park-discount/index.wxss */
+@import '../../style/theme.scss';
+.swiper-container {
+    height: 100vh;
+    .scroll-block {
+        overflow: scroll;
+        height: 100vh;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: #f8f8f8;
+        transition: all 0.5s;
+        .order-box {
+            &.orange {
+                // 时长劵
+                background-image: url("data:image/png;base64," + $orange);
+            }
+            &.blueGreen {
+                // 现金券
+                background-image: url("data:image/png;base64," + $blueGreen);
+            }
+            &.pink {
+                // 折扣劵
+                background-image: url("data:image/png;base64," + $pink);
+            }
+            &.babyBlue {
+                // 全免
+                background-image: url("data:image/png;base64," + $babyBlue);
+            }
+            background-size: 100% 100%;
+            border-radius: 10rpx;
+            padding: 25rpx;
+            margin: 14rpx 25rpx;
+            // flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .left {
+                width: 100%;
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10rpx;
+                    .info {
+                        font-size: 28rpx;
+                        font-weight: bold;
+                        color: #fff;
+                    }
+                }
+                .container {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .info-area {
+                        .info {
+                            font-size: 20rpx;
+                            color: #fff;
+                            margin-bottom: 5rpx;
+                        }
+                    }
+                }
+            }
+            .right{
+                width: 20%;
+                .action-area {
+                    display: flex;
+                    align-items: center;
+                    color: #fff;
+                    font-size: 45rpx;
+                    font-weight: bold;
+                    .btn-area {
+                        width: 300rpx;
+                        box-sizing: border-box;
+                        padding: 0 30rpx;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        .content {
+                            margin-left: 5rpx;
+                            font-size: 20rpx;
+                        }
+                    }
+                }
+            }
+            
+        }
+        .end-area {
+            color: $gray-text-color;
+            width: 100%;
+            text-align: center;
+            padding: 30rpx 0;
+        }
+    }
+}

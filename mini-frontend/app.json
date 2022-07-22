@@ -23,7 +23,14 @@
         "pages/order-display/index",
         "pages/user-register/index",
         "pages/pay-success/index",
-        "pages/lock-pay/index"
+        "pages/lock-pay/index",
+        "pages/park-vip-detail/index",
+        "pages/car-protocol/index",
+        "pages/user-vip/index",
+        "pages/vip-pay-success/index",
+        "pages/invoice-record/index",
+        "pages/invoice-order/index",
+        "pages/invoice-desc/index"
     ],
     "permission": {
         "scope.userLocation": {

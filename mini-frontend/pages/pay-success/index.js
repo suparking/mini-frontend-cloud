@@ -27,7 +27,6 @@ Page({
      */
     onLoad(options) {
         let payInfo = JSON.parse(options.payInfo);
-        console.log(payInfo)
         let discountInfo = payInfo.discountInfo;
         if (discountInfo) {
             let discountName = '';

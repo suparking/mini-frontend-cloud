@@ -1,0 +1,41 @@
+<view class="page">
+    <view class="swiper-container">
+        <swiper bindchange="handleSwiper" current="{{ currentTab }}">
+            <swiper-item wx:for="{{ vipCardTypeList }}" wx:key="index">
+                <view class="vip-card-container" bindtap="handleCardDetail">
+                    <view class="price-area">{{ vipCardPrice }}</view>
+                    <view class="body">
+                        <view class="info">名称: {{ vipCardTypeList[currentTab].protocolName }} (非预留车位)</view>
+                        <view class="info">单价: {{ vipCardTypeList[currentTab].price / 100 }}元/份</view>
+                        <view class="info">有效期: {{ vipExpireTime }}</view>
+                    </view>
+                </view>
+            </swiper-item>
+        </swiper>
+        <view class="dots">
+            <view class="dot {{ currentTab !== index || 'active'}}" wx:for="{{ vipCardTypeList }}" wx:key="index"></view>
+        </view>
+    </view>
+    <view class="content-container">
+        <view class="title">{{parkName}}</view>
+        <view class="address-container">
+            <view class="address">{{address}}</view>
+            <view class="stock"><text class="number">{{vipCardTypeList[currentTab].stockQuantity}}</text>库存</view>
+        </view>
+        <view class="select-container">
+            <view class="content {{vipSelectIndex === index ? 'active' : ''}} {{ dict[index] > vipCardTypeList[currentTab].stockQuantity ? 'priceActive' : ''}}" wx:for="{{vipCardTypeList[currentTab].priceList}}" wx:key="index" bindtap="handleContent" data-index="{{index}}">
+                <view class="name">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+
+    <view class="pay-content-area">
+        <view class="pay-desc-area">
+            <view class="static-content">合计:</view>
+            <view class="pay"><text class="ch">￥</text>{{vipCardTypeList[currentTab].stockQuantity <= 0 ? 0 : vipCardTypeList[currentTab].price * dict[vipSelectIndex] / 100 }}<text class="content">元</text></view>
+        </view>
+        <view class="pay-btn-area {{ btnPayStatus ? 'payGrayActive' : 'payBtnActive' }} {{vipCardTypeList[currentTab].stockQuantity <= 0 ? 'payActive' : ''}}">
+            <view class="payBtn" bindtap="toPay">{{ btnPayStatus ? '支付中' : '立即购买'}}</view>
+        </view>
+    </view>
+</view>

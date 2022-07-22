@@ -1,85 +1,80 @@
 <!--pages/park/index.wxml-->
 <view class="page">
-    <view class="header">
-        <tabs tabs="{{ [{ value: 'nearby', label: '附近场库' },{ value: 'recent', label: '常去场库' }] }}" bindregular="onRegular"></tabs>
-        <view wx:if="{{currentParkPage === 'near'}}" class="search" bindtap="onSearch">
-            <image class="icon" src="../../assets/images/park-search.png"></image>
-            <view class="name">搜索场库</view>
-        </view>
+  <view class="header">
+    <tabs tabs="{{ [{ value: 'nearby', label: '附近场库' },{ value: 'recent', label: '常去场库' }] }}" bindregular="onRegular"></tabs>
+    <view wx:if="{{currentParkPage === 'near'}}" class="search" bindtap="onSearch">
+      <image class="icon" src="../../assets/images/park-search.png"></image>
+      <view class="name">搜索场库</view>
     </view>
-    <map id="park-map" class="park-map" style="height: {{ isExpand ? '520rpx' : 0}};" latitude="{{ user.location.latitude }}" longitude="{{ user.location.longitude }}" show-location show-scale markers="{{ markers }}" bindmarkertap="onMarkerTab">
-        <image class="current-icon" src="../../assets/images/current-location.png" bindtap="goToCurrentLocation"></image>
-    </map>
-    <view class="collapse-area" bindtap="onExpandMap">
-        <view class="name">{{isExpand ? '收起地图' : '展开地图'}}</view>
-        <image wx:if="{{ isExpand }}" class="icon" src="../../assets/images/up.png"></image>
-        <image wx:else class="icon" src="../../assets/images/down.png"></image>
-    </view>
+  </view>
+  <map id="park-map" class="park-map" style="height: {{ isExpand ? '520rpx' : 0}};" latitude="{{ user.location.latitude }}" longitude="{{ user.location.longitude }}" show-location show-scale markers="{{ markers }}" bindmarkertap="onMarkerTab">
+    <image class="current-icon" src="../../assets/images/current-location.png" bindtap="goToCurrentLocation"></image>
+  </map>
+  <view class="collapse-area" bindtap="onExpandMap">
+    <view class="name">{{isExpand ? '收起地图' : '展开地图'}}</view>
+    <image wx:if="{{ isExpand }}" class="icon" src="../../assets/images/up.png"></image>
+    <image wx:else class="icon" src="../../assets/images/down.png"></image>
+  </view>
 
-    <scroll-view class="park-list" style="height: calc(100vh - {{isExpand ? 700 : 180}}rpx)" scroll-y>
-        <view wx:for="{{ parkList }}" wx:key="index" class="park-box" >
-            <view class="info-area" bindtap="popupParkDetail" data-park="{{ item }}">
-                <view class="name {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ item.name }}</view>
-                <view class="info">{{ item.address }}</view>
-                <view class="info">开放时间: {{ item.openTime}}</view>
-                <view class="tag-area">
-                    <view class="tag {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ dict[item.status] }}</view>
-                    <view class="free-park-area">
-                        <image class="icon" src="../../assets/images/park-free.png"></image>
-                        <view class="content">{{item.free}}</view>
-                    </view>
-                    <view class="charge-area">
-                        <image class="icon" src="../../assets/images/park-charge.png"></image>
-                        <view class="content">{{item.perCharge}}</view>
-                    </view>
-                </view>
-            </view>
-            <view class="location-area">
-                <view class="distance">距离{{ item.distance }}km</view>
-                <view class="action-area">
-                    <image class="location" bindtap="navigateLocation" data-location="{{ item.location }}" src="../../assets/images/park-location.png"></image>
-                    <image class="phone" bindtap="call" data-phone="{{ item.phone }}" src="../../assets/images/park-phone.png"></image>
-                </view>
-            </view>
+  <scroll-view class="park-list" style="height: calc(100vh - {{isExpand ? 700 : 180}}rpx)" scroll-y>
+    <view wx:for="{{ parkList }}" wx:key="index" class="park-box">
+      <view class="info-area" bindtap="popupParkDetail" data-park="{{ item }}">
+        <view class="name {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ item.name }}</view>
+        <view class="info">{{ item.address }}</view>
+        <view class="info">开放时间: {{ item.openTime}}</view>
+        <view class="tag-area">
+          <view class="tag {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ dict[item.status] }}</view>
+          <view class="free-park-area">
+            <image class="icon" src="../../assets/images/park-free.png"></image>
+            <view class="content">{{item.free}}</view>
+          </view>
+          <view class="charge-area">
+            <image class="icon" src="../../assets/images/park-charge.png"></image>
+            <view class="content">{{item.perCharge}}</view>
+          </view>
         </view>
-        <view wx:if="{{ !parkList || parkList.length === 0}}" class="end-area">没有更多了 ~</view>
-    </scroll-view>
-
-    <modalView show="{{ showModal }}" bindconfirm="modalConfirm" single="{{single}}" confirmName="选择其他场库" tipsContent="车位紧缺,暂停开放">
-        <view class="modal-content">
-            <scroll-view scroll-y class="main-content">
-                <image class="icon" style="width: 350rpx; height: 300rpx;" src="../../assets/images/no-parking.png"></image>
-            </scroll-view>
-        </view>
-    </modalView>
-
-    <page-container
-        show="{{ showDetailShow }}"
-        round
-        position="bottom"
-        class="park-detail"
-    >
-        <view class="notification">
-            <image class="icon" src="../../assets/images/park-broadcast.png"></image>
-            <view class="info">我们的场库很多,千万不要选错哦~</view>
-        </view>
-
-        <view class="park-area">
-            <view class="container">
-                <view class="info-area">
-                    <view class="name">{{ currentPark.name }}</view>
-                    <view class="info">{{ currentPark.address }}</view>
-                </view>
-                <view class="location-area">
-                    <view class="info">距离</view>
-                    <view class="distance">{{ currentPark.distance }}km</view>
-                </view>
-            </view>
-            <map id="park-detail-map" class="park-detail-map" latitude="{{ currentPark.location.latitude }}" longitude="{{ currentPark.location.longitude }}" markers="{{ markersDetail }}"></map>
-        </view>
-        
+      </view>
+      <view class="location-area">
+        <view class="distance">距离{{ item.distance }}km</view>
         <view class="action-area">
-            <button class="park" bindtap="goToPark" data-park-id="{{ currentPark.id }}">点击停车</button>
+          <image class="location" bindtap="navigateLocation" data-location="{{ item.location }}" src="../../assets/images/park-location.png"></image>
+          <image class="phone" bindtap="call" data-phone="{{ item.phone }}" src="../../assets/images/park-phone.png"></image>
         </view>
-    </page-container>
+      </view>
+    </view>
+    <view wx:if="{{ !parkList || parkList.length === 0}}" class="end-area">没有更多了 ~</view>
+  </scroll-view>
+
+  <modalView show="{{ showModal }}" bindconfirm="modalConfirm" single="{{single}}" confirmName="选择其他场库" tipsContent="车位紧缺,暂停开放">
+    <view class="modal-content">
+      <scroll-view scroll-y class="main-content">
+        <image class="icon" style="width: 350rpx; height: 300rpx;" src="../../assets/images/no-parking.png"></image>
+      </scroll-view>
+    </view>
+  </modalView>
+
+  <page-container show="{{ showDetailShow }}" round position="bottom" class="park-detail">
+    <view class="notification">
+      <image class="icon" src="../../assets/images/park-broadcast.png"></image>
+      <view class="info">我们的场库很多,千万不要选错哦~</view>
+    </view>
+
+    <view class="park-area">
+      <view class="container">
+        <view class="info-area">
+          <view class="name">{{ currentPark.name }}</view>
+          <view class="info">{{ currentPark.address }}</view>
+        </view>
+        <view class="location-area">
+          <view class="info">距离</view>
+          <view class="distance">{{ currentPark.distance }}km</view>
+        </view>
+      </view>
+      <map id="park-detail-map" class="park-detail-map" latitude="{{ currentPark.location.latitude }}" longitude="{{ currentPark.location.longitude }}" markers="{{ markersDetail }}"></map>
+    </view>
+
+    <view class="action-area">
+      <button class="park" bindtap="goToPark" data-park-id="{{ currentPark.id }}">点击停车</button>
+    </view>
+  </page-container>
 </view>

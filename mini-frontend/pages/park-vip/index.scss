@@ -1,1 +1,148 @@
-/* pages/park-vip/index.wxss */
+@import "../../style/theme.scss";
+.scroll-wrapper {
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  background-color: #fff;
+  height: 90rpx;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+  }
+  .navigate-item {
+    display: inline-block;
+    text-align: center;
+    height: 90rpx;
+    line-height: 90rpx;
+    margin: 0 16rpx;
+    .names {
+      font-size: 28rpx;
+      color: #777777;
+      &.active {
+        color: black;
+        font-weight: bold;
+      }
+    }
+    .currtline {
+      margin: -8rpx auto 0 auto;
+      width: 100rpx;
+      height: 8rpx;
+      border-radius: 4rpx;
+      &.active {
+        background: #ff6729;
+        transition: all 0.5s;
+      }
+    }
+  }
+}
+.swiper-container {
+  min-height: 100vh;
+  .scroll-block {
+    overflow: scroll;
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+    transition: all 0.5s;
+    .order-box {
+      background-color: #ffffff;
+      padding: 25rpx;
+      margin: 14rpx 25rpx;
+      display: flex;
+      align-items: center;
+      .info-area {
+        flex: 1;
+        border-right: 1rpx solid #eeeeee;
+        .name {
+          font-size: 28rpx;
+          font-weight: bold;
+          margin-bottom: 5rpx;
+          &.active {
+            color: $gray-text-color;
+          }
+        }
+        .info {
+          font-size: 20rpx;
+          color: $gray-text-color;
+          margin-bottom: 5rpx;
+        }
+        .tag-area {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .tag {
+            display: inline;
+            background-color: $primary-color;
+            font-size: 18rpx;
+            color: #fff;
+            padding: 6rpx 8rpx;
+            &.active {
+              background-color: $gray-text-color;
+            }
+          }
+          .icon {
+            width: 24rpx;
+            height: 24rpx;
+            margin-right: 5rpx;
+          }
+
+          .free-park-area {
+            display: flex;
+            align-items: center;
+            .content {
+              font-size: 20rpx;
+              color: $gray-text-color;
+              width: 50rpx;
+            }
+          }
+          .charge-area {
+            display: flex;
+            align-items: center;
+            margin-right: 20rpx;
+            .content {
+              font-size: 20rpx;
+              color: $gray-text-color;
+              width: 150rpx;
+            }
+          }
+        }
+      }
+      .location-area {
+        height: 100%;
+        margin-left: 25rpx;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .distance {
+          font-size: 20rpx;
+          color: $gray-text-color;
+          margin-bottom: 35rpx;
+        }
+        .content-area {
+          width: 120rpx;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          font-size: 24rpx;
+          color: $gray-text-color;
+          .content {
+            margin-right: 10rpx;
+            font-size: 30rpx;
+            color: $primary-color;
+            &.active {
+              color: $gray-text-color;
+            }
+          }
+        }
+      }
+    }
+    .end-area {
+      color: $gray-text-color;
+      width: 100%;
+      text-align: center;
+      padding: 30rpx 0;
+    }
+  }
+}

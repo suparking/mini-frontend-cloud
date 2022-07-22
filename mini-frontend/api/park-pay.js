@@ -94,6 +94,8 @@ const scanCodeQueryFee = params  => {
                 miniOpenId: params.miniOpenId,
                 unionId: params.unionId,
                 userId: params.userId,
+                discountInfo: params.discountInfo,
+                discountNo: params.discountNo
             },
             timeout: CONSTANT.REQUEST_TIMEOUT,
             success: (res) => {
@@ -215,6 +217,28 @@ const clearDiscountCache = params  => {
       })
   })
 }
+
+// 根据用户ID 获取用户名下的优惠券种类个数
+const getDiscountInfoCount = params  => {
+    return new Promise((resolve, reject) => {
+        wx.request({
+            url: CONSTANT.MINI_BASEURL + CONTEXTPATH + "/getDiscountInfoCount?unionId=" + params.unionId,
+            method: 'GET',
+            header: {
+                'content-type': 'application/json',
+                'sign': signUtil.sign(params.unionId)+''
+            },
+            timeout: CONSTANT.REQUEST_TIMEOUT,
+            success: (res) => {
+                resolve(res)
+            },
+            fail: (err) => {
+                reject(err)
+            }
+        })
+    })
+  }
+
 export default {
     projectInfoByDeviceNo,
     projectInfoByProjectNo,
@@ -224,5 +248,6 @@ export default {
     closeOrder,
     clearParkCache,
     getDeviceNo,
-    clearDiscountCache
+    clearDiscountCache,
+    getDiscountInfoCount 
 }

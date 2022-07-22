@@ -1,2 +1,33 @@
-<!--pages/user-invoice/index.wxml-->
-<text>电子发票</text>
+<!--pages/user-money/index.wxml-->
+<view class="page">
+  <view class="list-items">
+        <!-- 缴费记录 -->
+        <view class="item me-car" bindtap="gotoCustomPage" data-code="order-record">
+            <view class="content">
+                <image class="icon" src="../../assets/images/me-car.png"></image>
+                <view class="label">缴费记录</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+    </view>
+    <view class="list-items">
+        <!-- 开票历史 -->
+        <view class="item" bindtap="gotoCustomPage" data-code="invoice-history">
+            <view class="content">
+                <image class="icon" src="../../assets/images/me-invoice.png"></image>
+                <view class="label">开票历史</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+    </view>
+    <view class="list-items"> 
+        <!-- 开票说明 -->
+        <view class="item me-user" bindtap="gotoCustomPage" data-code="invoice-desc">
+            <view class="content">
+                <image class="icon" src="../../assets/images/me-protocol.png"></image>
+                <view class="label">开票说明</view>
+            </view>
+            <image class="left-arraw" src="../../assets/images/me-right.png"></image>
+        </view>
+    </view>
+</view>

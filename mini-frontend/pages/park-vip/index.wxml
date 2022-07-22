@@ -1,2 +1,23 @@
-<!--pages/park-vip/index.wxml-->
-<text>pages/park-vip/index.wxml</text>
+<swiper class="swiper-container" indicator-dots="{{ false }}" bindchange="handleSwiper">
+  <swiper-item>
+    <scroll-view class="scroll-block" style="overflow: scroll;" scroll-y>
+      <view class="order-box" wx:for="{{ projectList }}" wx:key="index">
+        <view class="info-area" bindtap="popupVipDetail" data-project="{{ item }}">
+          <view class="name {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ item.projectName }}</view>
+          <view class="info">{{ item.address }}</view>
+          <view class="info">开放时间: {{ item.openTime}}</view>
+          <view class="tag-area">
+            <view class="tag {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ dict[item.status] }}</view>
+          </view>
+        </view>
+        <view class="location-area">
+          <view class="distance">距离</view>
+          <view class="content-area">
+            <view><text class="content {{ item.status === 'CLOSED' ? 'active' : ''}}">{{ item.distance }}</text>km</view>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{ !projectList || projectList.length === 0}}" class="end-area">没有更多了</view>
+    </scroll-view>
+  </swiper-item>
+</swiper>
